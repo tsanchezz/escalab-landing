@@ -43,5 +43,7 @@ next-env.d.ts
 # permitir la plantilla de variables
 !.env.example
 
-# trabajo local de la skill de diseño
+# trabajo local de la skill de diseï¿½o
 .taste-skill/
+.vercel
+.env*

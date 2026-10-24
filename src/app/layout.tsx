@@ -63,6 +63,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Saltar al contenido
         </a>
+        {/* filtro de refracción para el efecto liquid glass (backdrop-filter: url(#liquid-glass)) */}
+        <svg aria-hidden width="0" height="0" className="absolute">
+          <filter id="liquid-glass" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.012 0.022" numOctaves="2" seed="4" result="noise" />
+            <feGaussianBlur in="noise" stdDeviation="2.5" result="soft" />
+            <feDisplacementMap in="SourceGraphic" in2="soft" scale="26" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </svg>
         {children}
         <ConsentBanner />
         <Analytics />

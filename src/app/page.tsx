@@ -2,6 +2,8 @@ import { Workflow } from "@/components/workflow";
 import { Nav } from "@/components/nav";
 import { Hero } from "@/components/hero";
 import { Intro } from "@/components/intro";
+import { Integrations } from "@/components/integrations";
+import { WorkflowScene } from "@/components/workflow-scene";
 import { HowItWorks } from "@/components/how-it-works";
 import { Features } from "@/components/features";
 import { SavingsCalculator } from "@/components/calculator";
@@ -18,8 +20,10 @@ export default function Home() {
       <Nav />
       <main id="contenido">
         <Hero />
+        <Integrations />
         <Intro />
         <HowItWorks />
+        <WorkflowScene />
         <Features />
         <SavingsCalculator />
         <Pricing />

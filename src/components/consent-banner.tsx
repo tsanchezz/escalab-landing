@@ -29,7 +29,7 @@ export function ConsentBanner() {
     <div
       role="dialog"
       aria-label="Preferencias de analítica"
-      className="fixed inset-x-3 bottom-3 z-[60] mx-auto flex max-w-3xl flex-col gap-4 rounded-xl border border-line bg-navy-2 p-5 shadow-2xl sm:flex-row sm:items-center"
+      className="fixed inset-x-3 bottom-3 z-[60] mx-auto flex max-w-3xl flex-col gap-4 glass glass-liquid rounded-2xl p-5 sm:flex-row sm:items-center"
     >
       <p className="t-small flex-1 text-soft">
         Usamos Google Analytics para entender cómo se usa esta página. Sólo se activa si lo aceptás.{" "}

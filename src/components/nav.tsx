@@ -9,7 +9,7 @@ export function Nav() {
   const { active, total, label, finished } = useWorkflow();
   const status = finished ? "Ejecución exitosa" : active >= 0 ? `Ejecutando · nodo ${active + 1} de ${total}` : "Listo para ejecutar";
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-navy">
+    <header className="glass glass-liquid fixed inset-x-0 top-0 z-50 !rounded-none !border-x-0 !border-t-0 !bg-navy/55">
       <div className="page-m flex h-16 items-center gap-6">
         <a href="#top" aria-label="Escalab, inicio" className="shrink-0">
           <Logo />
