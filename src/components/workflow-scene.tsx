@@ -9,44 +9,44 @@ import type { LucideIcon } from "lucide-react";
 import { usePinned } from "@/lib/use-pinned";
 
 const W = 1000;
-const H = 460;
-const NH = 72;
+const H = 400;
+const NH = 60;
 
-type Node = { id: string; x: number; y: number; w: number; type: string; name: string; Icon: IconType | LucideIcon; at: number };
+type Node = { id: string; x: number; y: number; w: number; type: string; name: string; Icon: IconType | LucideIcon; at: number; inPort?: boolean; outPort?: boolean };
 
-// `at` = paso a partir del cual el nodo está encendido
+// `at` = paso a partir del cual el nodo está encendido. Los puertos sólo existen donde hay un cable.
 const NODES: Node[] = [
-  { id: "trigger", x: 20, y: 130, w: 215, type: "Trigger", name: "Mensaje nuevo", Icon: SiInstagram, at: 1 },
-  { id: "agent", x: 275, y: 130, w: 215, type: "AI Agent", name: "Atiende y califica", Icon: Bot, at: 2 },
-  { id: "model", x: 175, y: 330, w: 190, type: "Modelo", name: "Chat de IA", Icon: Cpu, at: 2 },
-  { id: "mem", x: 395, y: 330, w: 190, type: "Memoria", name: "Contexto", Icon: Brain, at: 2 },
-  { id: "if", x: 540, y: 130, w: 190, type: "IF", name: "¿Calificado?", Icon: GitBranch, at: 3 },
-  { id: "cal", x: 790, y: 30, w: 205, type: "Calendar", name: "Agendar reunión", Icon: SiGooglecalendar, at: 4 },
-  { id: "wait", x: 790, y: 232, w: 205, type: "Espera · 24 h", name: "Seguimiento", Icon: Timer, at: 5 },
-  { id: "send", x: 790, y: 360, w: 205, type: "WhatsApp", name: "Recordatorio", Icon: SiWhatsapp, at: 6 },
+  { id: "trigger", x: 10, y: 140, w: 170, type: "Trigger", name: "Mensaje nuevo", Icon: SiInstagram, at: 1, outPort: true },
+  { id: "agent", x: 215, y: 140, w: 190, type: "AI Agent", name: "Atiende y califica", Icon: Bot, at: 2, inPort: true, outPort: true },
+  { id: "model", x: 150, y: 300, w: 170, type: "Modelo", name: "Chat de IA", Icon: Cpu, at: 2 },
+  { id: "mem", x: 350, y: 300, w: 170, type: "Memoria", name: "Contexto", Icon: Brain, at: 2 },
+  { id: "if", x: 440, y: 140, w: 150, type: "IF", name: "¿Calificado?", Icon: GitBranch, at: 3, inPort: true, outPort: true },
+  { id: "cal", x: 640, y: 40, w: 190, type: "Calendar", name: "Agendar reunión", Icon: SiGooglecalendar, at: 4, inPort: true },
+  { id: "wait", x: 640, y: 240, w: 150, type: "Espera", name: "A las 24 h", Icon: Timer, at: 5, inPort: true, outPort: true },
+  { id: "send", x: 830, y: 240, w: 160, type: "WhatsApp", name: "Recordatorio", Icon: SiWhatsapp, at: 6, inPort: true },
 ];
 
 // cables: [d, paso en el que se dibuja, discontinuo]
 const WIRES: [string, number, boolean][] = [
-  ["M235,166 L275,166", 2, false],
-  ["M490,166 L540,166", 3, false],
-  ["M730,166 C765,166 765,66 790,66", 4, false],
-  ["M730,166 C765,166 765,268 790,268", 5, false],
-  ["M892,304 L892,360", 6, false],
-  ["M350,202 C350,270 270,262 270,330", 2, true],
-  ["M420,202 C420,270 490,262 490,330", 2, true],
+  ["M180,170 L215,170", 2, false],
+  ["M405,170 L440,170", 3, false],
+  ["M590,170 C615,170 615,70 640,70", 4, false],
+  ["M590,170 C615,170 615,270 640,270", 5, false],
+  ["M790,270 L830,270", 6, false],
+  ["M300,200 C300,250 235,250 235,300", 2, true],
+  ["M350,200 C350,250 435,250 435,300", 2, true],
 ];
 
 // dónde está el paquete de datos en cada paso
 const STOPS = [
-  { x: 20, y: 166 },
-  { x: 20, y: 166 },
-  { x: 275, y: 166 },
-  { x: 540, y: 166 },
-  { x: 790, y: 66 },
-  { x: 790, y: 268 },
-  { x: 892, y: 360 },
-  { x: 892, y: 360 },
+  { x: 10, y: 170 },
+  { x: 180, y: 170 },
+  { x: 405, y: 170 },
+  { x: 590, y: 170 },
+  { x: 640, y: 70 },
+  { x: 640, y: 270 },
+  { x: 830, y: 270 },
+  { x: 830, y: 270 },
 ];
 
 const CAPTIONS = [
@@ -79,21 +79,21 @@ export function WorkflowScene() {
     <section
       ref={ref}
       aria-labelledby="scene-title"
-      className={wideLayout ? "relative h-[360vh]" : "relative py-20"}
+      className={wideLayout ? "relative h-[300vh]" : "relative py-20"}
     >
-      <div className={wideLayout ? "sticky top-0 flex h-svh flex-col justify-center gap-6 pt-20" : ""}>
-        <div className="page-m grid items-end gap-4 lg:grid-cols-12">
-          <h2 id="scene-title" className="t-h2 lg:col-span-6">
+      <div className={wideLayout ? "sticky top-0 flex h-svh flex-col justify-center gap-5 pt-16" : ""}>
+        <div className="page-m flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
+          <h2 id="scene-title" className="t-h2">
             Así corre tu workflow.
           </h2>
-          <p className="min-h-[3.2em] max-w-[34ch] text-[19px] leading-snug text-ink lg:col-span-6 lg:justify-self-end" aria-live="polite">
+          <p className="min-h-[2.8em] max-w-[34ch] text-[15px] leading-snug text-soft" aria-live="polite">
             {CAPTIONS[s]}
           </p>
         </div>
 
         <div className="page-m">
           <div data-ui className="ui-node overflow-hidden">
-            <div className="flex items-center justify-between bg-navy-3 px-5 py-3">
+            <div className="flex items-center justify-between bg-navy-3 px-4 py-2.5">
               <p className="text-[15px] font-bold">Workflow · De lead a venta</p>
               <p className="t-small flex items-center gap-2 font-semibold" style={{ color: s === 7 ? "var(--escalab-green)" : "var(--escalab-cyan)" }}>
                 {s === 7 ? <Check size={14} strokeWidth={3.5} /> : <span className="size-2 rounded-full bg-cyan" style={{ animation: "wf-pulse 1.1s ease-in-out infinite" }} />}
@@ -101,7 +101,7 @@ export function WorkflowScene() {
               </p>
             </div>
             <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Diagrama del workflow de n8n">
-              <svg viewBox={`0 0 ${W} ${H}`} className="block w-full min-w-[860px]" role="img" aria-label="Workflow de n8n: trigger, agente de IA, condición, calendario, espera y WhatsApp">
+              <svg viewBox={`0 0 ${W} ${H}`} className="block w-full min-w-[760px]" role="img" aria-label="Workflow de n8n: trigger, agente de IA, condición, calendario, espera y WhatsApp">
                 <defs>
                   <pattern id="scene-dots" width="24" height="24" patternUnits="userSpaceOnUse">
                     <circle cx="2" cy="2" r="1.3" fill="#263746" />
@@ -130,27 +130,27 @@ export function WorkflowScene() {
                   </g>
                 ))}
 
-                {NODES.map(({ id, x, y, w, type, name, Icon, at }) => {
+                {NODES.map(({ id, x, y, w, type, name, Icon, at, inPort, outPort }) => {
                   const on = s >= at;
                   const current = s === at;
                   return (
                     <foreignObject key={id} x={x} y={y} width={w} height={NH} style={{ overflow: "visible" }}>
                       <div
-                        className="ui-node flex h-full items-center gap-3 px-3 transition-[opacity,border-color,box-shadow] duration-500"
+                        className="ui-node flex h-full items-center gap-2.5 px-2.5 transition-[opacity,border-color,box-shadow] duration-500"
                         style={{
                           opacity: on ? 1 : 0.32,
                           borderColor: current ? "var(--escalab-cyan)" : on ? "var(--escalab-teal)" : undefined,
                           boxShadow: current ? "0 0 0 4px rgb(38 155 210 / .18)" : undefined,
                         }}
                       >
-                        <span className="ui-port in" />
-                        <span className="ui-port out" />
-                        <span className="grid size-9 shrink-0 place-items-center rounded-[9px] bg-navy-4" style={{ color: on ? "var(--escalab-cyan)" : "var(--escalab-gray)" }}>
-                          <Icon size={18} />
+                        {inPort && <span className="ui-port in" />}
+                        {outPort && <span className="ui-port out" />}
+                        <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-navy-4" style={{ color: on ? "var(--escalab-cyan)" : "var(--escalab-gray)" }}>
+                          <Icon size={16} />
                         </span>
                         <span className="min-w-0 leading-tight">
-                          <span className="t-micro block truncate text-soft">{type}</span>
-                          <span className="block truncate text-[14px] font-bold">{name}</span>
+                          <span className="block truncate text-[11px] font-bold uppercase tracking-[0.12em] text-soft">{type}</span>
+                          <span className="block truncate text-[13px] font-bold">{name}</span>
                         </span>
                       </div>
                     </foreignObject>
@@ -158,7 +158,7 @@ export function WorkflowScene() {
                 })}
 
                 <motion.circle
-                  r="7"
+                  r="6"
                   fill="#C8EB63"
                   initial={false}
                   animate={{ cx: stop.x, cy: stop.y, opacity: s === 0 ? 0 : 1 }}

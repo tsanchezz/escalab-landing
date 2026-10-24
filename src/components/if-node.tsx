@@ -32,16 +32,15 @@ export function IfNode() {
   const ok = seconds <= 300;
 
   return (
-    <div ref={ref} data-ui className="ui-node p-0">
-      <span className="ui-port in" />
-      <div className="flex items-center gap-3 bg-navy-3 px-5 py-3.5">
+    <div ref={ref} data-ui className="ui-node mx-auto w-full max-w-[400px] p-0 md:ml-auto">
+      <div className="flex items-center gap-3 bg-navy-3 px-4 py-3">
         <span className="t-micro text-soft">IF</span>
-        <p className="text-[15px] font-bold">Tiempo de respuesta ≤ 5 min</p>
+        <p className="text-[14px] font-bold">Tiempo de respuesta ≤ 5 min</p>
       </div>
 
-      <div className="px-5 py-8">
+      <div className="px-4 py-5">
         <p className="t-small text-soft">{phase === 0 ? "Sin automatización" : "Con el agente de Escalab"}</p>
-        <p className="mt-2 text-[56px] font-extrabold leading-none tabular-nums tracking-tight" style={{ color: ok ? "var(--escalab-green)" : "var(--escalab-white)" }}>
+        <p className="mt-2 text-[40px] font-extrabold leading-none tabular-nums tracking-tight" style={{ color: ok ? "var(--escalab-green)" : "var(--escalab-white)" }}>
           {fmt(seconds)}
         </p>
         <p className="t-small mt-2 text-soft">minutos sin respuesta al cliente</p>
@@ -54,7 +53,7 @@ export function IfNode() {
         ].map(({ id, on, label, Icon }) => (
           <div
             key={id}
-            className="relative flex items-center gap-3 px-5 py-4 transition-colors duration-500"
+            className="relative flex items-center gap-3 px-4 py-3 transition-colors duration-500"
             style={{ background: on ? (id === "true" ? "color-mix(in srgb, var(--escalab-green) 20%, var(--escalab-navy-2))" : "var(--navy-4)") : "var(--escalab-navy-2)" }}
           >
             <span className="t-micro w-12 text-soft">{id}</span>
@@ -62,10 +61,6 @@ export function IfNode() {
             <span className="text-[15px] font-semibold" style={{ opacity: on ? 1 : 0.45 }}>
               {label}
             </span>
-            <span
-              className="ui-port out"
-              style={{ borderColor: on ? (id === "true" ? "var(--escalab-green)" : "var(--escalab-gray)") : "var(--escalab-border)" }}
-            />
           </div>
         ))}
       </div>

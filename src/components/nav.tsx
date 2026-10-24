@@ -16,7 +16,7 @@ export function Nav() {
         </a>
 
         <p
-          className="t-small hidden min-w-0 flex-1 items-center justify-center gap-3 text-soft xl:flex"
+          className="t-small hidden min-w-0 flex-1 items-center justify-center gap-3 whitespace-nowrap text-soft xl:flex"
           aria-live="off"
         >
           <span
@@ -24,7 +24,7 @@ export function Nav() {
             style={{ background: finished ? "var(--escalab-green)" : "var(--escalab-cyan)", animation: finished ? undefined : "wf-pulse 1.1s ease-in-out infinite" }}
           />
           <span className="font-semibold text-ink">{status}</span>
-          {label && !finished && <span className="truncate">{label}</span>}
+          {label && !finished && <span className="hidden truncate 2xl:inline">{label}</span>}
         </p>
 
         <nav aria-label="Principal" className="ml-auto hidden items-center gap-7 lg:flex">

@@ -37,23 +37,18 @@ export function SavingsCalculator() {
 
   return (
     <section id="ahorro" aria-labelledby="ahorro-title" className="bg-navy-2">
-      <div className="page-m py-24 lg:py-28">
-        <Reveal>
-          <NodeChip type="Set · Cálculo" name="Cuánto tiempo recuperás" icon={<Calculator size={18} />} />
-        </Reveal>
+      <div className="page-m py-20 lg:py-24">
+        <NodeChip type="Set · Cálculo" name="Cuánto tiempo recuperás" icon={<Calculator size={16} />} />
 
-        <div className="mt-10 grid items-end gap-10 md:grid-cols-12 md:gap-8">
-          <Reveal delay={0.08} className="md:col-span-7">
-            <h2 id="ahorro-title" className="max-w-[18ch] text-[clamp(28px,3vw,44px)] font-extrabold leading-[1.05] tracking-[-0.03em]">
-              ¿Cuántos mensajes por mes?
-            </h2>
-          </Reveal>
-
-          <Reveal delay={0.14} className="md:col-span-5">
-            <div data-ui className="w-full max-w-[400px] md:ml-auto">
-              <label htmlFor="msgs" className="mb-4 flex items-baseline justify-between text-[15px] font-semibold">
+        <div className="mt-8 grid items-center gap-10 md:grid-cols-2 md:gap-16">
+          <div>
+            <Reveal as="h2" className="t-h2">
+              <span id="ahorro-title">¿Cuántos mensajes por mes?</span>
+            </Reveal>
+            <div className="mt-8 max-w-[400px]">
+              <label htmlFor="msgs" className="mb-4 flex items-center justify-between text-[14px] font-semibold">
                 <span>Mensajes por mes</span>
-                <output htmlFor="msgs" className="text-[22px] font-extrabold tabular-nums">
+                <output htmlFor="msgs" className="text-[20px] font-extrabold tabular-nums">
                   {msgs.toLocaleString("es-AR")}
                 </output>
               </label>
@@ -69,21 +64,18 @@ export function SavingsCalculator() {
                 onChange={(e) => onChange(Number(e.target.value))}
               />
             </div>
-          </Reveal>
-        </div>
+          </div>
 
-        <div className="mt-16 grid items-end gap-6 md:grid-cols-12 lg:mt-20">
-          <p
-            className="text-grad font-extrabold leading-[0.8] tracking-[-0.05em] tabular-nums md:col-span-8 lg:col-span-9"
-            style={{ fontSize: "clamp(104px, 19vw, 320px)" }}
-            aria-live="polite"
-          >
-            {shown}
-            <span className="ml-[0.12em] text-[0.2em] tracking-[-0.02em]">h al mes</span>
-          </p>
-          <p className="t-small max-w-[30ch] text-soft md:col-span-4 md:justify-self-end lg:col-span-3">
-            Horas de atención que el agente te devuelve: mensajes × {MINUTES_PER_MSG} minutos de atención manual × {AUTOMATED_SHARE * 100}% resuelto por el agente. Son supuestos de ejemplo, no una promesa.
-          </p>
+          <div data-ui className="ui-node p-6 md:p-8">
+            <p className="t-small text-soft">Horas que el agente te devuelve</p>
+            <p className="text-grad mt-2 text-[72px] font-extrabold leading-none tracking-[-0.04em] tabular-nums" aria-live="polite">
+              {shown}
+              <span className="ml-2 text-[22px] tracking-normal">h al mes</span>
+            </p>
+            <p className="t-small mt-5 max-w-[40ch] text-soft">
+              Mensajes × {MINUTES_PER_MSG} minutos de atención manual × {AUTOMATED_SHARE * 100}% resuelto por el agente. Supuestos de ejemplo, no una promesa.
+            </p>
+          </div>
         </div>
       </div>
     </section>

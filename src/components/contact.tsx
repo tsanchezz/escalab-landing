@@ -3,14 +3,13 @@
 import { useEffect, useState } from "react";
 import { Send, Check } from "lucide-react";
 import { NodeChip, useWorkflow } from "@/components/workflow";
-import { Reveal } from "@/components/reveal";
 import { track } from "@/lib/analytics";
 import { WHATSAPP_URL } from "@/lib/site";
 
 type Status = "idle" | "sending" | "ok" | "error";
 
 const field =
-  "h-[52px] w-full rounded-lg bg-[#2b66e6] px-4 text-[16px] text-white placeholder:text-white/75 outline-offset-2 focus-visible:outline-white";
+  "h-12 w-full rounded-lg bg-[#2b66e6] px-4 text-[16px] text-white placeholder:text-white/75 outline-offset-2 focus-visible:outline-white";
 
 export function Contact() {
   const { finish } = useWorkflow();
@@ -43,17 +42,15 @@ export function Contact() {
   }
 
   return (
-    <section id="contacto" aria-labelledby="contacto-title" className="page-m pb-24 pt-12 lg:pb-32 lg:pt-16">
-      <Reveal>
-        <NodeChip type="Webhook · Respuesta" name="De lead a venta" icon={<Send size={18} />} />
-      </Reveal>
+    <section id="contacto" aria-labelledby="contacto-title" className="page-m pb-20 pt-8 lg:pb-24">
+      <NodeChip type="Webhook · Respuesta" name="De lead a venta" icon={<Send size={18} />} />
 
-      <div className="mt-14">
-        <div className="coupon mx-auto grid max-w-[1180px] lg:grid-cols-[46%_1fr]" data-ui>
+      <div className="mt-8">
+        <div className="coupon grid lg:grid-cols-[46%_1fr]" data-ui>
           <span aria-hidden className="coupon-perf" />
 
-          <div className="flex flex-col justify-between gap-10 p-8 lg:p-12">
-            <h2 id="contacto-title" className="text-[clamp(28px,3vw,44px)] font-extrabold uppercase leading-[1.02] tracking-[-0.02em]">
+          <div className="flex flex-col justify-between gap-10 p-7 lg:p-9">
+            <h2 id="contacto-title" className="text-[clamp(24px,2.4vw,34px)] font-extrabold uppercase leading-[1.02] tracking-[-0.02em]">
               Empecemos tu workflow
             </h2>
             <div>
@@ -72,7 +69,7 @@ export function Contact() {
             </div>
           </div>
 
-          <div className="p-8 pt-12 lg:p-12 max-lg:pt-14">
+          <div className="p-7 pt-10 lg:p-9 max-lg:pt-12">
             {status === "ok" ? (
               <div role="status" className="flex h-full min-h-[320px] flex-col items-start justify-center gap-4">
                 <span className="grid size-14 place-items-center rounded-full bg-navy text-green">
@@ -108,7 +105,7 @@ export function Contact() {
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="mt-1 h-14 w-full rounded-lg bg-navy text-[15px] font-bold uppercase tracking-[0.1em] text-white transition-[filter,transform] duration-200 hover:brightness-125 active:scale-[0.99] disabled:opacity-70"
+                  className="mt-1 h-12 w-full rounded-lg bg-navy text-[15px] font-bold uppercase tracking-[0.1em] text-white transition-[filter,transform] duration-200 hover:brightness-125 active:scale-[0.99] disabled:opacity-70"
                 >
                   {status === "sending" ? "Ejecutando…" : "Ejecutar workflow"}
                 </button>
