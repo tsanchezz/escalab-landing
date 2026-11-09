@@ -35,7 +35,13 @@ export const NAV_LINKS = [
   { href: "#faq", label: "Preguntas" },
 ] as const;
 
-const WA_TEXT = encodeURIComponent("Hola Escalab, quiero automatizar las consultas de mi inmobiliaria.");
-export const WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
-  ? `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${WA_TEXT}`
-  : `https://wa.me/?text=${WA_TEXT}`;
+/** Número de WhatsApp (sólo dígitos, con código de país). Sin NEXT_PUBLIC_WHATSAPP_NUMBER no se muestra ningún enlace. */
+export const WHATSAPP_NUMBER = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "").replace(/D/g, "");
+
+export const WHATSAPP_MESSAGE = "Hola Escalab, quiero automatizar las consultas de mi inmobiliaria.";
+
+/** Enlace wa.me con el número y el mensaje codificado; null si todavía no hay número configurado. */
+export function buildWhatsAppLink(message: string = WHATSAPP_MESSAGE): string | null {
+  if (!WHATSAPP_NUMBER) return null;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}

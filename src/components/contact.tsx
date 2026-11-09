@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { ParallaxImage } from "@/components/parallax-image";
 import { track } from "@/lib/analytics";
-import { WHATSAPP_URL } from "@/lib/site";
+import { WhatsAppLink } from "@/components/whatsapp-link";
 import { PLANS } from "@/lib/plans";
 
 type Status = "idle" | "sending" | "ok" | "error";
@@ -57,15 +57,9 @@ export function Contact() {
           <p className="t-lead mt-5 max-w-[40ch]">
             Contanos cómo recibís hoy las consultas y te mostramos cómo quedaría con el agente. Te respondemos en menos de 24 horas.
           </p>
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track("cta_click", { location: "contacto", label: "whatsapp" })}
-            className="mt-6 inline-flex min-h-11 items-center font-semibold text-cream underline underline-offset-4"
-          >
+          <WhatsAppLink location="contacto" className="mt-6 inline-flex min-h-11 items-center font-semibold text-cream underline underline-offset-4">
             O escribinos por WhatsApp
-          </a>
+          </WhatsAppLink>
         </div>
 
         <div className="lg:col-span-6 lg:col-start-7">
