@@ -340,7 +340,7 @@ body {
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 .field::placeholder {
-  color: #8a7b6e;
+  color: #786a5e;
 }
 .field:focus-visible {
   outline: none;
