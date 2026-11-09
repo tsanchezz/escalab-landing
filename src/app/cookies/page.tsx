@@ -49,7 +49,7 @@ export default function Cookies() {
 
       <H2>Cómo funciona tu consentimiento</H2>
       <p>
-        Google Analytics 4 no se carga hasta que lo aceptás en el aviso. Podés rechazarlo o configurarlo, y cambiar tu decisión en cualquier momento. Rechazar no afecta al uso del sitio.
+        Google Tag Manager y Google Analytics 4 no se cargan hasta que lo aceptás en el aviso. Podés rechazarlo o configurarlo, y cambiar tu decisión en cualquier momento. Rechazar no afecta al uso del sitio.
       </p>
       <div>
         <CookiePreferencesButton className="btn btn-outline" />

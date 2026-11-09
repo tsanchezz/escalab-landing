@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
-import { GA_ID } from "@/lib/analytics";
+import { ANALYTICS_ON } from "@/lib/analytics";
 import { onOpenCookiePreferences, readConsent, saveConsent, subscribeConsent } from "@/lib/consent";
 
 /**
@@ -28,7 +28,7 @@ export function ConsentBanner() {
     [],
   );
 
-  const visible = Boolean(GA_ID) && saved !== "ssr" && (saved === null || reopened);
+  const visible = ANALYTICS_ON && saved !== "ssr" && (saved === null || reopened);
 
   useEffect(() => {
     if (reopened) ref.current?.focus();

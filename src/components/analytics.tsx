@@ -2,7 +2,7 @@
 
 import { useEffect, useSyncExternalStore } from "react";
 import Script from "next/script";
-import { GA_ID } from "@/lib/analytics";
+import { GA_ID, GTM_ID } from "@/lib/analytics";
 import { readConsent, subscribeConsent } from "@/lib/consent";
 
 /** Borra las cookies de Google Analytics (_ga, _ga_*) al retirar el consentimiento. */
@@ -17,24 +17,47 @@ function clearGaCookies() {
   }
 }
 
+const CONSENT_DEFAULT = (analytics: "granted" | "denied") =>
+  `gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: '${analytics}' });`;
+
 /**
- * Google Analytics 4: el script de gtag.js sólo se descarga si hay NEXT_PUBLIC_GA_ID y la persona aceptó
- * la analítica. Si después la rechaza, se desactiva la medición y se borran sus cookies.
+ * Medición: con NEXT_PUBLIC_GTM_ID se carga Google Tag Manager; si no, con NEXT_PUBLIC_GA_ID se carga gtag.js.
+ * En ambos casos el script se descarga SÓLO después de que la persona aceptó la analítica. Si después la
+ * rechaza, se informa Consent Mode "denied", se desactiva la medición y se borran las cookies _ga*.
  */
 export function Analytics() {
   const consent = useSyncExternalStore(subscribeConsent, readConsent, () => null);
   const granted = consent === "granted";
 
   useEffect(() => {
-    if (!GA_ID) return;
-    (window as unknown as Record<string, unknown>)[`ga-disable-${GA_ID}`] = !granted;
+    if (!GTM_ID && !GA_ID) return;
+    if (GA_ID) (window as unknown as Record<string, unknown>)[`ga-disable-${GA_ID}`] = !granted;
     if (!granted) {
       window.gtag?.("consent", "update", { analytics_storage: "denied" });
       clearGaCookies();
     }
   }, [granted]);
 
-  if (!GA_ID || !granted) return null;
+  if (!granted) return null;
+
+  if (GTM_ID) {
+    return (
+      <>
+        <Script id="gtm-init" strategy="afterInteractive">
+          {`
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+window.gtag = gtag;
+${CONSENT_DEFAULT("granted")}
+dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          `}
+        </Script>
+        <Script src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`} strategy="afterInteractive" />
+      </>
+    );
+  }
+
+  if (!GA_ID) return null;
   return (
     <>
       <Script id="ga-init" strategy="afterInteractive">
@@ -42,7 +65,7 @@ export function Analytics() {
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 window.gtag = gtag;
-gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted' });
+${CONSENT_DEFAULT("granted")}
 gtag('js', new Date());
 gtag('config', '${GA_ID}', { anonymize_ip: true });
         `}

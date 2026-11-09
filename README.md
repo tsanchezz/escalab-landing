@@ -26,7 +26,7 @@ Copiá `.env.example` a `.env.local`.
 
 ## Google Analytics 4
 
-Se carga **sólo si hay `NEXT_PUBLIC_GA_ID` y la persona aceptó la analítica** en el aviso (Aceptar / Rechazar / Configurar). La elección se guarda en `localStorage` y se puede cambiar desde "Preferencias de cookies" en el footer; al rechazar se desactiva la medición y se borran las cookies `_ga*`. Eventos personalizados:
+Se carga **sólo si hay `NEXT_PUBLIC_GTM_ID` (Google Tag Manager, con prioridad) o `NEXT_PUBLIC_GA_ID` (gtag.js directo) y la persona aceptó la analítica** en el aviso (Aceptar / Rechazar / Configurar). La elección se guarda en `localStorage` y se puede cambiar desde "Preferencias de cookies" en el footer; al rechazar se desactiva la medición y se borran las cookies `_ga*`. Eventos personalizados:
 
 | Evento | Cuándo |
 | --- | --- |

@@ -26,7 +26,7 @@ export default function Privacidad() {
           <strong className="text-ink">Formulario de contacto:</strong> nombre, inmobiliaria, email, teléfono (opcional), tamaño del equipo, plan de interés y mensaje. Los usamos únicamente para responderte y coordinar una demo.
         </li>
         <li>
-          <strong className="text-ink">Analítica (opcional):</strong> si la aceptás, Google Analytics 4 mide visitas, secciones alcanzadas y clics en botones, con la IP anonimizada. Sin tu aceptación no se carga.
+          <strong className="text-ink">Analítica (opcional):</strong> si la aceptás, Google Analytics 4 (a través de Google Tag Manager) mide visitas, secciones alcanzadas y clics en botones, con la IP anonimizada. Sin tu aceptación no se carga.
         </li>
       </ul>
 
