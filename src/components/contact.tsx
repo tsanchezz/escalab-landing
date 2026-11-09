@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { ParallaxImage } from "@/components/parallax-image";
 import { track } from "@/lib/analytics";
+import Link from "next/link";
 import { WhatsAppLink } from "@/components/whatsapp-link";
 import { PLANS } from "@/lib/plans";
 
@@ -127,6 +128,17 @@ export function Contact() {
                   {status === "sending" ? "Enviando…" : "Pedir una demo"}
                   {status !== "sending" && <ArrowRight aria-hidden size={18} className="arrow" />}
                 </button>
+                <p className="text-[13px] text-soft">
+                  Al enviar, aceptás la{" "}
+                  <Link href="/privacidad" className="text-ink underline underline-offset-4">
+                    Política de privacidad
+                  </Link>{" "}
+                  y los{" "}
+                  <Link href="/terminos" className="text-ink underline underline-offset-4">
+                    Términos
+                  </Link>
+                  .
+                </p>
                 {status === "error" && (
                   <p role="alert" className="text-[14px] font-semibold text-terracotta-deep">
                     No pudimos enviar el formulario. Probá de nuevo o escribinos por WhatsApp.

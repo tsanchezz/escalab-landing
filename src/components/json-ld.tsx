@@ -1,5 +1,5 @@
 ﻿import { FAQS } from "@/lib/faq";
-import { SITE, SITE_URL } from "@/lib/site";
+import { CONTACT_EMAIL, SITE, SITE_URL } from "@/lib/site";
 import { PLANS } from "@/lib/plans";
 
 /** Datos estructurados (schema.org) en un único @graph. */
@@ -14,7 +14,7 @@ export function JsonLd() {
         slogan: SITE.claim,
         url: SITE_URL,
         logo: { "@type": "ImageObject", url: `${SITE_URL}/icon` },
-        email: SITE.email,
+        ...(CONTACT_EMAIL ? { email: CONTACT_EMAIL } : {}),
         description: SITE.description,
         areaServed: { "@type": "Country", name: "Argentina" },
         knowsLanguage: "es-AR",

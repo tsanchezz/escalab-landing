@@ -15,7 +15,6 @@ export const SITE = {
   description:
     "Un agente de IA que responde, califica y agenda cada consulta de tu inmobiliaria por WhatsApp, Instagram y web, y ordena el seguimiento de tus leads.",
   locale: "es_AR",
-  email: "hola@escalab.example",
   keywords: [
     "software para inmobiliarias",
     "chatbot para inmobiliarias",
@@ -45,3 +44,6 @@ export function buildWhatsAppLink(message: string = WHATSAPP_MESSAGE): string | 
   if (!WHATSAPP_NUMBER) return null;
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
+
+/** Email de contacto real, sólo si se configura NEXT_PUBLIC_CONTACT_EMAIL (no se inventan direcciones). */
+export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || undefined;
