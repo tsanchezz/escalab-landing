@@ -26,7 +26,7 @@ Copiá `.env.example` a `.env.local`.
 
 ## Google Analytics 4
 
-Cargado sólo con `NEXT_PUBLIC_GA_ID`, con **Consent Mode v2** (arranca en `denied`; el banner actualiza el consentimiento). Eventos personalizados:
+Se carga **sólo si hay `NEXT_PUBLIC_GTM_ID` (Google Tag Manager, con prioridad) o `NEXT_PUBLIC_GA_ID` (gtag.js directo) y la persona aceptó la analítica** en el aviso (Aceptar / Rechazar / Configurar). La elección se guarda en `localStorage` y se puede cambiar desde "Preferencias de cookies" en el footer; al rechazar se desactiva la medición y se borran las cookies `_ga*`. Eventos personalizados:
 
 | Evento | Cuándo |
 | --- | --- |
@@ -35,7 +35,10 @@ Cargado sólo con `NEXT_PUBLIC_GA_ID`, con **Consent Mode v2** (arranca en `deni
 | `calculator_change` | Se mueve el slider de ahorro |
 | `plan_select` | Se elige un plan |
 | `faq_open` | Se abre una pregunta |
-| `generate_lead` | Se envía el formulario (marcalo como conversión en GA4) |
+| `form_submit` | Se envía el formulario (`plan`, `agents`); marcalo como conversión en GA4 |
+| `click_whatsapp` | Clic en el enlace de WhatsApp (`location`) |
+| `click_demo` | Clic en un CTA "Pedir una demo" (`location`) |
+| `scroll_pricing` | La sección de planes entra en pantalla (una vez) |
 
 ## SEO
 
@@ -44,6 +47,10 @@ Metadata y canonical por la Metadata API, Open Graph/Twitter con imagen generada
 ## Contenido de ejemplo
 
 Precios, la calculadora (4 min por consulta, 70% resuelto por el agente) y las conversaciones son datos de ejemplo del proyecto académico. No hay clientes, testimonios ni métricas inventadas.
+
+## Páginas legales
+
+`/privacidad` (Ley 25.326, AAIP), `/terminos` y `/cookies`, con leyenda de proyecto académico. Los datos de contacto reales (`NEXT_PUBLIC_CONTACT_EMAIL`, `NEXT_PUBLIC_WHATSAPP_NUMBER`) van en variables de entorno; sin ellas no se muestra ninguno.
 
 ## Calidad medida
 

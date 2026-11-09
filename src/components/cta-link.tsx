@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { track } from "@/lib/analytics";
+import { trackCta } from "@/lib/analytics";
 
 /** Enlace/botón con evento GA4 `cta_click`. */
 export function CtaLink({
@@ -23,7 +23,7 @@ export function CtaLink({
     <a
       href={href}
       className={className}
-      onClick={() => track("cta_click", { location, label })}
+      onClick={() => trackCta(location, label)}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >
       {children}

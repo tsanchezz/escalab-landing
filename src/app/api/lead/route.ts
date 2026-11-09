@@ -1,48 +1,33 @@
 import { NextResponse } from "next/server";
+import { normalizeLead, validateLead } from "@/lib/lead";
+import { PLANS } from "@/lib/plans";
 
-type Lead = {
-  name?: string;
-  email?: string;
-  business?: string;
-  phone?: string;
-  agents?: string;
-  plan?: string;
-  message?: string;
-  website?: string;
-};
-
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const clean = (v: unknown, max = 200) => String(v ?? "").trim().slice(0, max);
+const PLAN_IDS = PLANS.map((p) => p.id);
+const MAX_BODY = 8_000;
 
 /**
- * Recibe el formulario de contacto. Si existe N8N_WEBHOOK_URL reenvía el lead a ese
- * webhook de n8n; si no, sólo valida y responde ok (modo demo).
+ * Recibe el formulario de contacto, lo valida (mismas reglas que el cliente) y, si existe
+ * N8N_WEBHOOK_URL, reenvía el lead a ese webhook. Sin webhook sólo valida y responde ok (modo demo).
  */
 export async function POST(request: Request) {
-  let body: Lead;
+  const raw = await request.text();
+  if (raw.length > MAX_BODY) return NextResponse.json({ ok: false, error: "too_large" }, { status: 413 });
+
+  let body: Record<string, unknown>;
   try {
-    body = await request.json();
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("not an object");
+    body = parsed;
   } catch {
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
 
-  if (body.website) return NextResponse.json({ ok: true }); // honeypot: fingimos éxito
+  if (body.website) return NextResponse.json({ ok: true }); // honeypot: un bot rellena este campo; fingimos éxito
 
-  const lead = {
-    name: clean(body.name, 100),
-    email: clean(body.email, 160),
-    business: clean(body.business, 160),
-    phone: clean(body.phone, 40),
-    agents: clean(body.agents, 10),
-    plan: clean(body.plan, 30),
-    message: clean(body.message, 1000),
-    segment: "inmobiliarias",
-    source: "escalab-landing",
-    receivedAt: new Date().toISOString(),
-  };
-
-  if (!lead.name || !EMAIL.test(lead.email) || !lead.business) {
-    return NextResponse.json({ ok: false, error: "invalid_fields" }, { status: 422 });
+  const lead = normalizeLead(body);
+  const errors = validateLead(lead, PLAN_IDS);
+  if (Object.keys(errors).length) {
+    return NextResponse.json({ ok: false, error: "invalid_fields", fields: errors }, { status: 422 });
   }
 
   const hook = process.env.N8N_WEBHOOK_URL;
@@ -51,11 +36,24 @@ export async function POST(request: Request) {
       const res = await fetch(hook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(lead),
+        body: JSON.stringify({
+          name: lead.name,
+          business: lead.business,
+          email: lead.email,
+          phone: lead.phone,
+          agents: lead.agents,
+          plan: lead.plan,
+          message: lead.message,
+          consent: true,
+          segment: "inmobiliarias",
+          source: "escalab-landing",
+          receivedAt: new Date().toISOString(),
+        }),
+        signal: AbortSignal.timeout(8_000),
       });
-      if (!res.ok) throw new Error(`n8n responded ${res.status}`);
+      if (!res.ok) throw new Error(`webhook respondió ${res.status}`);
     } catch (err) {
-      console.error("[lead] no se pudo reenviar a n8n", err);
+      console.error("[lead] no se pudo reenviar al webhook", err);
       return NextResponse.json({ ok: false, error: "upstream" }, { status: 502 });
     }
   }

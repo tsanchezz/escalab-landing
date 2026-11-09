@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
-import { SITE } from "@/lib/site";
+import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
+import { ANALYTICS_ON } from "@/lib/analytics";
+import { CONTACT_EMAIL, SITE } from "@/lib/site";
 
 const COLS = [
   { title: "Producto", links: [["#como-funciona", "Cómo funciona"], ["#servicios", "Qué resuelve"], ["#ahorro", "Calculadora"]] },
   { title: "Comercial", links: [["#planes", "Planes"], ["#faq", "Preguntas"], ["#contacto", "Pedir una demo"]] },
-  { title: "Legal", links: [["/privacidad", "Privacidad y cookies"]] },
+  { title: "Legal", links: [["/privacidad", "Privacidad"], ["/terminos", "Términos"], ["/cookies", "Cookies"]] },
 ] as const;
 
 export function Footer() {
@@ -37,15 +39,24 @@ export function Footer() {
                       )}
                     </li>
                   ))}
+                  {c.title === "Legal" && ANALYTICS_ON && (
+                    <li>
+                      <CookiePreferencesButton className="inline-flex min-h-9 items-center text-left transition-colors hover:text-terracotta-soft" />
+                    </li>
+                  )}
                 </ul>
               </nav>
             ))}
           </div>
           <address className="text-[15px] not-italic leading-relaxed text-cream/80 lg:col-span-3">
-            <a href={`mailto:${SITE.email}`} className="font-semibold text-cream hover:text-terracotta-soft">
-              {SITE.email}
-            </a>
-            <br />
+            {CONTACT_EMAIL && (
+              <>
+                <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-cream hover:text-terracotta-soft">
+                  {CONTACT_EMAIL}
+                </a>
+                <br />
+              </>
+            )}
             Remoto · Argentina y Latinoamérica
           </address>
         </div>

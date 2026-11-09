@@ -43,7 +43,7 @@ export function Phone({ children, caption = true }: { children: ReactNode; capti
           </div>
           <div className="flex flex-1 flex-col justify-end gap-2 overflow-hidden px-3 py-3">{children}</div>
           <div className="px-3 pb-4">
-            <div className="rounded-full bg-white px-4 py-2.5 text-[13px] text-[#8a7b6e]">Mensaje</div>
+            <div className="rounded-full bg-white px-4 py-2.5 text-[13px] text-[#786a5e]">Mensaje</div>
           </div>
         </div>
       </div>
