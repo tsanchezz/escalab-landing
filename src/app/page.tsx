@@ -10,6 +10,7 @@ import { Pricing } from "@/components/pricing";
 import { FaqSection } from "@/components/faq";
 import { Contact } from "@/components/contact";
 import { Footer } from "@/components/footer";
+import { RevealObserver } from "@/components/reveal-observer";
 import { JsonLd } from "@/components/json-ld";
 
 export default function Home() {
@@ -30,6 +31,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <RevealObserver />
     </>
   );
 }
