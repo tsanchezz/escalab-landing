@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
+import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
+import { GA_ID } from "@/lib/analytics";
 import { CONTACT_EMAIL, SITE } from "@/lib/site";
 
 const COLS = [
@@ -37,6 +39,11 @@ export function Footer() {
                       )}
                     </li>
                   ))}
+                  {c.title === "Legal" && GA_ID && (
+                    <li>
+                      <CookiePreferencesButton className="inline-flex min-h-9 items-center text-left transition-colors hover:text-terracotta-soft" />
+                    </li>
+                  )}
                 </ul>
               </nav>
             ))}

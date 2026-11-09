@@ -1,11 +1,28 @@
 "use client";
 
+import { useEffect } from "react";
 import { Check } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { track } from "@/lib/analytics";
 import { PLANS } from "@/lib/plans";
 
 export function Pricing() {
+  // scroll_pricing: una vez, cuando la sección de planes entra en pantalla
+  useEffect(() => {
+    const el = document.getElementById("planes");
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        track("scroll_pricing", { section: "planes" });
+        io.disconnect();
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section id="planes" aria-labelledby="planes-title" className="section cv border-y border-line bg-linen [--cv-m:1849px] [--cv-d:967px]">
       <div className="page-m">

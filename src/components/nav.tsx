@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { NAV_LINKS } from "@/lib/site";
-import { track } from "@/lib/analytics";
+import { trackCta } from "@/lib/analytics";
 
 export function Nav() {
   const [solid, setSolid] = useState(false);
@@ -76,7 +76,7 @@ export function Nav() {
           <a
             href="#contacto"
             onClick={() =>
-              track("cta_click", { location: "nav", label: "pedir_demo" })
+              trackCta("nav", "pedir_demo")
             }
             className="btn btn-primary ml-auto max-lg:hidden! !min-h-10 !px-5 !text-[13px] lg:ml-0"
           >
@@ -118,7 +118,7 @@ export function Nav() {
       <a
         href="#contacto"
         onClick={() =>
-          track("cta_click", { location: "fab", label: "pedir_demo" })
+          trackCta("fab", "pedir_demo")
         }
         aria-hidden={!solid || atContact || undefined}
         tabIndex={!solid || atContact ? -1 : undefined}
