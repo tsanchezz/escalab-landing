@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import { Fraunces, Manrope } from "next/font/google";
 import { SITE, SITE_URL } from "@/lib/site";
 import { Analytics } from "@/components/analytics";
 import { ConsentBanner } from "@/components/consent-banner";
@@ -11,9 +11,16 @@ const manrope = Manrope({
   display: "swap",
 });
 
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
 export const viewport: Viewport = {
-  themeColor: "#071421",
-  colorScheme: "dark",
+  themeColor: "#F6F1E9",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
@@ -55,22 +62,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es-AR" className={`${manrope.variable} h-full antialiased`}>
+    <html lang="es-AR" className={`${manrope.variable} ${fraunces.variable} h-full antialiased`}>
       <body className="min-h-full">
         <a
           href="#contenido"
-          className="fixed left-3 top-3 z-[70] -translate-y-20 rounded-lg bg-ink px-4 py-2 font-bold text-navy transition-transform focus:translate-y-0"
+          className="fixed left-3 top-3 z-[70] -translate-y-20 rounded-full bg-ink px-5 py-2.5 text-[14px] font-semibold text-cream transition-transform focus:translate-y-0"
         >
           Saltar al contenido
         </a>
-        {/* filtro de refracción para el efecto liquid glass (backdrop-filter: url(#liquid-glass)) */}
-        <svg aria-hidden width="0" height="0" className="absolute">
-          <filter id="liquid-glass" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
-            <feTurbulence type="fractalNoise" baseFrequency="0.012 0.022" numOctaves="2" seed="4" result="noise" />
-            <feGaussianBlur in="noise" stdDeviation="2.5" result="soft" />
-            <feDisplacementMap in="SourceGraphic" in2="soft" scale="26" xChannelSelector="R" yChannelSelector="G" />
-          </filter>
-        </svg>
         {children}
         <ConsentBanner />
         <Analytics />

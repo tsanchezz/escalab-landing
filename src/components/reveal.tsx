@@ -1,14 +1,30 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
+
+/** Observador único compartido: cada Reveal entra una sola vez y deja de observarse. */
+let observer: IntersectionObserver | undefined;
+function watch(el: Element) {
+  observer ??= new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.setAttribute("data-in", "");
+        observer?.unobserve(e.target);
+      }
+    },
+    { rootMargin: "0px 0px -4% 0px" },
+  );
+  observer.observe(el);
+}
 
 /** Entrada de las partes de una sección: sube 24px con opacidad, una sola vez. */
 export function Reveal({
   children,
   delay = 0,
   y = 24,
-  className,
+  className = "",
   as = "div",
 }: {
   children: ReactNode;
@@ -17,15 +33,16 @@ export function Reveal({
   className?: string;
   as?: "div" | "p" | "li" | "h2" | "h3" | "span";
 }) {
-  const reduce = useReducedMotion();
-  const Comp = motion[as] as typeof motion.div;
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (ref.current) watch(ref.current);
+  }, []);
+  const Comp = as as "div";
   return (
     <Comp
-      className={className}
-      initial={reduce ? false : { opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -4% 0px" }}
-      transition={{ duration: 0.7, delay, ease: [0.2, 0.7, 0.2, 1] }}
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`reveal ${className}`}
+      style={{ "--ry": `${y}px`, "--rd": `${delay}s` } as React.CSSProperties}
     >
       {children}
     </Comp>

@@ -1,49 +1,74 @@
-import { Webhook } from "lucide-react";
-import { NodeChip } from "@/components/workflow";
-import { PhoneDemo } from "@/components/phone";
+import { ArrowRight } from "lucide-react";
+import { ParallaxImage } from "@/components/parallax-image";
+import { Bubble, Phone } from "@/components/phone";
 import { CtaLink } from "@/components/cta-link";
-import { SITE } from "@/lib/site";
+import { STEPS } from "@/lib/journey";
 
-const rise = (i: number) => ({ "--i": i }) as React.CSSProperties;
+const delay = (s: number) => ({ animationDelay: `${s}s` });
+const i = (n: number) => ({ "--i": n }) as React.CSSProperties;
+
+// Conversación corta del hero: la consulta, la respuesta, la calificación y la agenda.
+const HERO_MSGS = [STEPS[0].msgs[0], STEPS[1].msgs[0], STEPS[2].msgs[1], STEPS[3].msgs[0]];
 
 export function Hero() {
   return (
-    <section id="top" aria-labelledby="hero-title" className="relative isolate overflow-hidden pt-16">
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="glow bg-brand-blue" style={{ width: "46vw", height: "46vw", right: "-10vw", top: "-8vw", animation: "drift-a 22s ease-in-out infinite" }} />
-        <div className="glow bg-teal" style={{ width: "34vw", height: "34vw", left: "-12vw", bottom: "-10vw", opacity: 0.2, animation: "drift-b 26s ease-in-out infinite" }} />
-      </div>
+    <section id="top" aria-labelledby="hero-title" className="on-dark relative isolate flex min-h-[100svh] items-end overflow-hidden bg-night text-cream">
+      <ParallaxImage
+        src="/images/hero.jpg"
+        alt="Living amplio con pared de madera, sillón gris y cocina integrada, con luz natural"
+        preload
+        position="60% 50%"
+        sizes="100vw"
+        className="-z-20"
+      />
+      <div aria-hidden className="scrim-hero absolute inset-0 -z-10" />
 
-      <div className="page-m grid items-center gap-10 pb-12 pt-6 sm:gap-14 sm:pb-16 sm:pt-8 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-12 lg:gap-8 lg:pt-12">
+      <div className="page-m grid w-full gap-10 pb-12 pt-28 sm:pb-16 lg:grid-cols-12 lg:items-end lg:pb-20">
         <div className="lg:col-span-7">
-          <div className="rise" style={rise(0)}>
-            <NodeChip type="Webhook · Trigger" name="Llega un mensaje nuevo" icon={<Webhook size={16} />} />
-          </div>
+          <p className="t-eyebrow rise" style={i(0)}>
+            Para inmobiliarias y agentes
+          </p>
 
-          <h1 id="hero-title" className="t-display-hero rise mt-7" style={rise(1)}>
-            Automatizá tu pyme.
-            <br />
-            <span className="text-grad">Vendé más.</span>
+          <h1 id="hero-title" className="t-display mt-5 text-cream">
+            <span className="line">
+              <span style={i(1)}>Cada consulta, respondida.</span>
+            </span>
+            <span className="line">
+              <span style={i(2)}>
+                Cada visita, <em>agendada.</em>
+              </span>
+            </span>
           </h1>
 
-          <p className="rise mt-6 max-w-[42ch] text-[17px] text-soft leading-relaxed text-ink" style={rise(2)}>
-            Escalab arma en n8n un agente de IA que responde, califica y agenda a cada lead desde tus redes. Sin etapa de discovery manual.
+          {/* sin animación de opacidad: es el elemento más grande del primer pintado (LCP) */}
+          <p className="t-lead mt-6 max-w-[48ch]">
+            Escalab arma para tu inmobiliaria un agente de IA que responde, califica y agenda cada consulta desde WhatsApp, Instagram y tu web, y deja el seguimiento ordenado para tu equipo.
           </p>
-          <div className="rise mt-7 flex flex-wrap gap-3" style={rise(3)}>
-            <CtaLink href="#contacto" location="hero" label="escalar_ahora" className="btn btn-primary btn-port">
-              Escalar ahora
+
+          <div className="rise mt-8 flex flex-wrap gap-3" style={i(4)}>
+            <CtaLink href="#contacto" location="hero" label="pedir_demo" className="btn btn-primary">
+              Pedir una demo <ArrowRight aria-hidden size={18} className="arrow" />
             </CtaLink>
-            <CtaLink href="#como-funciona" location="hero" label="conocer_mas" className="btn btn-secondary btn-port">
-              Conocer más
+            <CtaLink href="#como-funciona" location="hero" label="ver_como_funciona" className="btn btn-light">
+              Ver cómo funciona
             </CtaLink>
           </div>
-          <p className="t-micro rise mt-8 text-soft" style={rise(4)}>
-            {SITE.claim}
+
+          <p className="rise mt-10 flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.18em] text-cream/85" style={i(5)}>
+            <span>Responder</span>
+            <span aria-hidden className="h-px w-6 bg-terracotta-soft" />
+            <span>Calificar</span>
+            <span aria-hidden className="h-px w-6 bg-terracotta-soft" />
+            <span>Agendar</span>
           </p>
         </div>
 
-        <div className="rise lg:col-span-5" style={rise(3)}>
-          <PhoneDemo />
+        <div className="hidden lg:col-span-5 lg:block">
+          <Phone>
+            {HERO_MSGS.map((m, n) => (
+              <Bubble key={m.text} msg={m} className="bubble-in" style={delay(1.2 + n * 1.1)} />
+            ))}
+          </Phone>
         </div>
       </div>
     </section>

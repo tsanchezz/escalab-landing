@@ -1,36 +1,38 @@
 import { ImageResponse } from "next/og";
 import { SITE } from "@/lib/site";
 
-export const alt = "Escalab: automatización con n8n para pymes";
+export const alt = "Escalab: automatización de consultas para inmobiliarias";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default function OpengraphImage() {
-  const grad = "linear-gradient(100deg, #174ED8 0%, #269BD2 38%, #42C5A4 70%, #C8EB63 100%)";
+  const bar = { position: "absolute" as const, background: "#2B211C", borderRadius: 3 };
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", background: "#071421", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, fontFamily: "sans-serif", color: "#F7F8FA" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+      <div style={{ width: "100%", height: "100%", background: "#F6F1E9", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, fontFamily: "Georgia, serif", color: "#2B211C" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
           <div style={{ display: "flex", width: 56, height: 56, position: "relative" }}>
-            <div style={{ position: "absolute", left: 0, top: 0, width: 12, height: 56, borderRadius: 4, background: grad }} />
-            <div style={{ position: "absolute", left: 16, top: 0, width: 40, height: 12, borderRadius: 4, background: grad }} />
-            <div style={{ position: "absolute", left: 16, top: 22, width: 29, height: 12, borderRadius: 4, background: grad }} />
-            <div style={{ position: "absolute", left: 16, top: 44, width: 18, height: 12, borderRadius: 4, background: grad }} />
+            <div style={{ ...bar, left: 6, top: 6, width: 7, height: 46 }} />
+            <div style={{ ...bar, left: 16, top: 6, width: 36, height: 7 }} />
+            <div style={{ ...bar, left: 16, top: 25, width: 25, height: 7, background: "#B5573A" }} />
+            <div style={{ ...bar, left: 16, top: 45, width: 14, height: 7 }} />
           </div>
-          <div style={{ display: "flex", fontSize: 46, fontWeight: 800 }}>
-            Esca
-            <span style={{ backgroundImage: grad, backgroundClip: "text", color: "transparent" }}>lab</span>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", fontSize: 44 }}>Escalab</div>
+            <div style={{ display: "flex", fontSize: 16, letterSpacing: 5, fontFamily: "sans-serif", fontWeight: 700, color: "#9E4A30" }}>PARA INMOBILIARIAS</div>
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", fontSize: 92, fontWeight: 800, lineHeight: 1, letterSpacing: -3 }}>
-          <div style={{ display: "flex" }}>Automatizá tu pyme.</div>
-          <div style={{ display: "flex", backgroundImage: grad, backgroundClip: "text", color: "transparent" }}>Vendé más.</div>
+        <div style={{ display: "flex", flexDirection: "column", fontSize: 88, lineHeight: 1.02, letterSpacing: -2 }}>
+          <div style={{ display: "flex" }}>Cada consulta, respondida.</div>
+          <div style={{ display: "flex", color: "#9E4A30", fontStyle: "italic" }}>Cada visita, agendada.</div>
         </div>
 
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 28, color: "#B9C3CD" }}>
-          <div style={{ display: "flex" }}>Workflows de n8n · de lead a venta</div>
-          <div style={{ display: "flex", letterSpacing: 4 }}>{SITE.claim.toUpperCase()}</div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 26, fontFamily: "sans-serif", color: "#6B5D52" }}>
+          <div style={{ display: "flex" }}>Agente de IA para WhatsApp, Instagram y web</div>
+          <div style={{ display: "flex", padding: "10px 22px", borderRadius: 999, background: "#B5573A", color: "#FFF9F2", fontWeight: 700, fontSize: 22, letterSpacing: 1 }}>
+            {SITE.claim}
+          </div>
         </div>
       </div>
     ),
