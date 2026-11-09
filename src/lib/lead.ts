@@ -48,3 +48,20 @@ export function validateLead(lead: LeadInput, planIds: readonly string[]): LeadE
   if (!lead.consent) e.consent = "Necesitamos tu aceptación para poder responderte.";
   return e;
 }
+
+/** Cuerpo para FormSubmit (tabla en el mail). Se envía desde el navegador, no desde el servidor. */
+export function emailFields(lead: LeadInput) {
+  return {
+    _subject: `Escalab: nueva consulta de ${lead.business}`,
+    _template: "table",
+    _captcha: "false",
+    Nombre: lead.name,
+    Inmobiliaria: lead.business,
+    email: lead.email,
+    WhatsApp: lead.phone || "(no indicó)",
+    "Agentes en el equipo": lead.agents || "(no indicó)",
+    "Plan de interés": lead.plan || "(no indicó)",
+    Mensaje: lead.message || "(sin mensaje)",
+    "Aceptó privacidad": "Sí",
+  };
+}

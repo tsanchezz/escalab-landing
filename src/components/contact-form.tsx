@@ -4,13 +4,24 @@ import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { track } from "@/lib/analytics";
-import { LeadErrors, LeadField, normalizeLead, validateLead } from "@/lib/lead";
+import { emailFields, LeadErrors, LeadField, LeadInput, normalizeLead, validateLead } from "@/lib/lead";
 import { PLANS } from "@/lib/plans";
 
 type Status = "idle" | "sending" | "ok" | "error";
 
 const PLAN_IDS = PLANS.map((p) => p.id);
 const ORDER: LeadField[] = ["name", "business", "email", "phone", "agents", "plan", "message", "consent"];
+
+/** Entrega por email con FormSubmit desde el navegador (desde servidores en la nube lo bloquean). */
+async function deliverByEmail(to: string, lead: LeadInput) {
+  const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(to)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(emailFields(lead)),
+  });
+  const body = (await res.json().catch(() => ({}))) as { success?: string | boolean };
+  if (!res.ok || String(body.success) !== "true") throw new Error("email delivery failed");
+}
 
 /** Formulario de contacto: validación en cliente (misma lógica que el servidor), estados y avisos accesibles. */
 export function ContactForm() {
@@ -71,6 +82,8 @@ export function ContactForm() {
         }
       }
       if (!res.ok) throw new Error("bad response");
+      const { notifyTo } = (await res.json().catch(() => ({}))) as { notifyTo?: string };
+      if (notifyTo) await deliverByEmail(notifyTo, lead);
       setStatus("ok");
       track("form_submit", { plan: lead.plan || "sin_definir", agents: lead.agents || "sin_definir", form: "contacto" });
     } catch {
