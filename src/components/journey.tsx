@@ -72,7 +72,7 @@ export function Journey() {
                   refs.current[i] = el;
                 }}
                 data-i={i}
-                className="relative grid grid-cols-[44px_1fr] gap-5 pb-10 lg:min-h-[42vh] lg:pb-0"
+                className="relative grid grid-cols-[44px_1fr] gap-5 lg:min-h-[42vh]"
               >
                 <div className="relative">
                   <span
@@ -94,7 +94,7 @@ export function Journey() {
                   )}
                 </div>
 
-                <div>
+                <div className="pb-10 lg:pb-0">
                   <h3 className={`t-h3 pt-2 transition-colors duration-500 motion-reduce:transition-none ${reached ? "text-ink" : "text-soft"}`}>{s.title}</h3>
                   <p className="mt-2 max-w-[46ch] text-soft">{s.text}</p>
                   <div className="mt-4 flex flex-col gap-2 rounded-[6px] bg-[#efe7db] p-3 lg:hidden">
