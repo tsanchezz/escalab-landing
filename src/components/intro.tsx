@@ -5,10 +5,10 @@ import { IfNode } from "@/components/if-node";
 
 export function Intro() {
   return (
-    <section id="problema" aria-labelledby="problema-title" className="page-m py-20 lg:py-24">
+    <section id="problema" aria-labelledby="problema-title" className="page-m py-12 sm:py-16 lg:py-24">
       <NodeChip type="IF · Condición" name="¿Respondiste en menos de 5 minutos?" icon={<GitBranch size={16} />} />
 
-      <div className="mt-8 grid items-center gap-10 md:grid-cols-2 md:gap-16">
+      <div className="mt-6 grid items-center gap-8 sm:mt-8 sm:gap-10 md:grid-cols-2 md:gap-16">
         <div>
           <Reveal as="h2" className="t-h2">
             <span id="problema-title">Tu cliente no espera.</span>

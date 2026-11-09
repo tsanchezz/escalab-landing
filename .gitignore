@@ -47,3 +47,6 @@ next-env.d.ts
 .taste-skill/
 .vercel
 .env*
+
+# capturas de verificación
+.playwright-mcp/

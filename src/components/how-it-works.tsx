@@ -77,12 +77,12 @@ export function HowItWorks() {
   const s = pinned ? step : 3;
 
   return (
-    <section id="como-funciona" aria-labelledby="como-title" className="py-12">
+    <section id="como-funciona" aria-labelledby="como-title" className="py-8 sm:py-12">
       <div className="page-m pb-6">
         <NodeChip type="AI Agent · n8n" name="El agente de Escalab" icon={<Bot size={16} />} />
       </div>
 
-      <div ref={ref} className={pinned ? "relative h-[260vh]" : "relative py-8"}>
+      <div ref={ref} className={pinned ? "relative h-[260vh]" : "relative py-6 sm:py-8"}>
         <div className={pinned ? "sticky top-0 flex h-svh items-center pt-14" : ""}>
           <div className="page-m grid w-full items-center gap-10 md:grid-cols-2 md:gap-16">
             <div className="flex flex-col items-start gap-8">

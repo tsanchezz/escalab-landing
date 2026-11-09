@@ -19,7 +19,7 @@
 
   --grad: linear-gradient(100deg, #174ed8 0%, #269bd2 38%, #42c5a4 70%, #c8eb63 100%);
   --radius: 12px;
-  --m: max(clamp(20px, 4vw, 48px), calc((100vw - 1120px) / 2));
+  --m: max(clamp(24px, 5vw, 48px), calc((100vw - 1120px) / 2));
   --spine-x: clamp(10px, calc(var(--m) / 2), 24px);
 }
 
@@ -336,20 +336,6 @@ body {
   box-shadow: 0 0 0 4px rgb(200 235 99 / 0.18), 0 0 18px 2px rgb(200 235 99 / 0.55);
   will-change: transform;
 }
-.wf-junction {
-  position: absolute;
-  left: calc(var(--spine-x) - 5px);
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: var(--escalab-navy);
-  border: 2px solid var(--escalab-border);
-  transition: border-color 300ms ease, background-color 300ms ease;
-}
-.wf-junction[data-on="true"] {
-  border-color: var(--escalab-teal);
-  background: var(--escalab-teal);
-}
 .wf-stub {
   position: absolute;
   height: 2px;
@@ -660,10 +646,12 @@ body {
   pointer-events: none;
   background: radial-gradient(120% 90% at 12% -10%, rgb(255 255 255 / 0.28), transparent 45%);
 }
-/* refracción líquida: sólo Chromium soporta filtros SVG en backdrop-filter */
-@supports (backdrop-filter: url(#liquid-glass)) {
-  .glass-liquid {
-    backdrop-filter: url(#liquid-glass) blur(10px) saturate(170%) brightness(1.08);
+/* refracción líquida: sólo Chromium soporta filtros SVG en backdrop-filter; en móvil se omite (retrasa el primer pintado) */
+@media (min-width: 768px) {
+  @supports (backdrop-filter: url(#liquid-glass)) {
+    .glass-liquid {
+      backdrop-filter: url(#liquid-glass) blur(10px) saturate(170%) brightness(1.08);
+    }
   }
 }
 

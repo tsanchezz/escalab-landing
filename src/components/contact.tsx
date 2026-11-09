@@ -42,7 +42,7 @@ export function Contact() {
   }
 
   return (
-    <section id="contacto" aria-labelledby="contacto-title" className="page-m pb-20 pt-8 lg:pb-24">
+    <section id="contacto" aria-labelledby="contacto-title" className="page-m pb-12 pt-4 sm:pb-16 sm:pt-8 lg:pb-24">
       <NodeChip type="Webhook · Respuesta" name="De lead a venta" icon={<Send size={18} />} />
 
       <div className="mt-8">

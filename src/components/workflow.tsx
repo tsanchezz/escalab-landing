@@ -127,10 +127,7 @@ export function Workflow({ children }: { children: ReactNode }) {
             />
             <div ref={packetRef} className="wf-packet" />
             {pos.map((p, i) => (
-              <div key={i}>
-                <div className="wf-stub" data-on={i <= active} style={{ top: p.y - 1, left: "var(--spine-x)", width: `calc(${p.left}px - var(--spine-x))` }} />
-                <div className="wf-junction" data-on={i <= active} style={{ top: p.y - 5 }} />
-              </div>
+              <div key={i} className="wf-stub" data-on={i <= active} style={{ top: p.y - 1, left: "var(--spine-x)", width: `calc(${p.left}px - var(--spine-x))` }} />
             ))}
           </div>
         )}

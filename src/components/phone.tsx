@@ -289,7 +289,7 @@ function Frame({ children }: { children: ReactNode }) {
 export function PhoneDemo() {
   const reduce = useReducedMotion();
   const [app, setApp] = useState(0);
-  const [counts, setCounts] = useState<number[]>(() => APPS.map(() => 0));
+  const [counts, setCounts] = useState<number[]>(() => APPS.map(() => 1));
   const timer = useRef<number | undefined>(undefined);
   const tilt = useRef<HTMLDivElement>(null);
 

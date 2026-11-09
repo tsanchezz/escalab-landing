@@ -37,10 +37,10 @@ export function Features() {
   const [on, setOn] = useState<boolean[]>([true, true, true, false, false]);
 
   return (
-    <section id="servicios" aria-labelledby="servicios-title" className="page-m py-20 lg:py-24">
+    <section id="servicios" aria-labelledby="servicios-title" className="page-m py-12 sm:py-16 lg:py-24">
       <NodeChip type="Tools · Integraciones" name="Qué automatizamos" icon={<Wrench size={16} />} />
 
-      <div className="mt-8 grid gap-10 md:grid-cols-12 md:gap-16">
+      <div className="mt-6 grid gap-8 sm:mt-8 sm:gap-10 md:grid-cols-12 md:gap-16">
         <div className="md:col-span-5">
           <Reveal as="h2" className="t-h2">
             <span id="servicios-title">Prendé lo que necesitás.</span>

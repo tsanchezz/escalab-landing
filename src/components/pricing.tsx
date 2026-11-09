@@ -8,14 +8,14 @@ import { PLANS } from "@/lib/plans";
 
 export function Pricing() {
   return (
-    <section id="planes" aria-labelledby="planes-title" className="page-m py-20 lg:py-24">
+    <section id="planes" aria-labelledby="planes-title" className="page-m py-12 sm:py-16 lg:py-24">
       <NodeChip type="Switch · Ruta" name="Elegí tu plan" icon={<Split size={16} />} />
 
       <Reveal as="h2" className="t-h2 mt-8">
         <span id="planes-title">Tres formas de escalar.</span>
       </Reveal>
 
-      <ul className="mt-10 grid gap-4 md:grid-cols-3">
+      <ul className="mt-8 grid gap-4 sm:mt-10 md:grid-cols-3">
         {PLANS.map((p, i) => {
           const featured = p.id === "scale";
           return (

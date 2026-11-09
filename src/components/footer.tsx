@@ -10,7 +10,7 @@ const COLS = [
 
 export function Footer() {
   return (
-    <footer className="bg-navy-2 pb-8 pt-14">
+    <footer className="bg-navy-2 pb-8 pt-10 sm:pt-14">
       <div className="page-m">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-3">

@@ -11,10 +11,10 @@ export function FaqSection() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section id="faq" aria-labelledby="faq-title" className="page-m py-20 lg:py-24">
+    <section id="faq" aria-labelledby="faq-title" className="page-m py-12 sm:py-16 lg:py-24">
       <NodeChip type="Sticky Note · Notas" name="Preguntas frecuentes" icon={<StickyNote size={16} />} />
 
-      <div className="mt-8 grid gap-10 md:grid-cols-12 md:gap-16">
+      <div className="mt-6 grid gap-8 sm:mt-8 sm:gap-10 md:grid-cols-12 md:gap-16">
         <Reveal as="h2" className="t-h2 md:col-span-5">
           <span id="faq-title">Lo que nos preguntan.</span>
         </Reveal>

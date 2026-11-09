@@ -18,7 +18,7 @@ const ITEMS = [
 /** Tira de integraciones que n8n conecta. Logos reales, sólo como referencia de compatibilidad. */
 export function Integrations() {
   return (
-    <section aria-label="Herramientas que conectamos con n8n" className="bg-navy-2 py-10">
+    <section aria-label="Herramientas que conectamos con n8n" className="bg-navy-2 py-8 sm:py-10">
       <p className="page-m t-small text-soft">n8n se conecta con las herramientas que ya usás.</p>
       <div className="marquee-mask mt-6 overflow-hidden">
         <ul className="marquee-track flex w-max items-center gap-3 pr-3">

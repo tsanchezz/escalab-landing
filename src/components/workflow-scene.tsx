@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import { SiGooglecalendar, SiInstagram, SiWhatsapp } from "react-icons/si";
 import { Bot, Brain, Check, Cpu, GitBranch, Timer } from "lucide-react";
 import type { IconType } from "react-icons";
@@ -60,6 +60,138 @@ const CAPTIONS = [
   "Ejecución exitosa. Del mensaje a la venta, sin tocar nada.",
 ];
 
+type VItem = { at: number; type: string; name: string; Icon: IconType | LucideIcon; sub?: boolean };
+type VGroup = { label?: string; items: VItem[] };
+
+// Versión móvil: el mismo flujo en vertical. `at` coincide con el paso del diagrama de escritorio.
+const V_FLOW: VGroup[] = [
+  { items: [{ at: 1, type: "Trigger", name: "Mensaje nuevo", Icon: SiInstagram }] },
+  {
+    items: [
+      { at: 2, type: "AI Agent", name: "Atiende y califica", Icon: Bot },
+      { at: 2, type: "Modelo", name: "Chat de IA", Icon: Cpu, sub: true },
+      { at: 2, type: "Memoria", name: "Contexto", Icon: Brain, sub: true },
+    ],
+  },
+  { items: [{ at: 3, type: "IF", name: "¿Calificado?", Icon: GitBranch }] },
+  { label: "Si califica", items: [{ at: 4, type: "Calendar", name: "Agendar reunión", Icon: SiGooglecalendar }] },
+  {
+    label: "Si no",
+    items: [
+      { at: 5, type: "Espera", name: "A las 24 h", Icon: Timer },
+      { at: 6, type: "WhatsApp", name: "Recordatorio", Icon: SiWhatsapp },
+    ],
+  },
+];
+
+function VNode({ item, step }: { item: VItem; step: number }) {
+  const { at, type, name, Icon, sub } = item;
+  const on = step >= at;
+  const current = step === at;
+  return (
+    <div
+      data-ui
+      data-at={at}
+      className={`ui-node flex items-center gap-2.5 px-3 py-2.5 transition-[opacity,border-color,box-shadow] duration-500 ${sub ? "ml-6" : ""}`}
+      style={{
+        opacity: on ? 1 : 0.4,
+        borderColor: current ? "var(--escalab-cyan)" : on ? "var(--escalab-teal)" : undefined,
+        borderStyle: sub ? "dashed" : undefined,
+        boxShadow: current ? "0 0 0 4px rgb(38 155 210 / .18)" : undefined,
+      }}
+    >
+      <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-navy-4" style={{ color: on ? "var(--escalab-cyan)" : "var(--escalab-gray)" }}>
+        <Icon size={17} />
+      </span>
+      <span className="min-w-0 leading-tight">
+        <span className="block text-[11px] font-bold uppercase tracking-[0.12em] text-soft">{type}</span>
+        <span className="block text-[14px] font-bold">{name}</span>
+      </span>
+      {on && !current && <Check size={15} strokeWidth={3} className="ml-auto shrink-0" style={{ color: "var(--escalab-green)" }} />}
+    </div>
+  );
+}
+
+function VWire({ on, dashed = false }: { on: boolean; dashed?: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={`block h-5 w-0.5 rounded-full transition-colors duration-500 ${dashed ? "ml-[42px]" : "ml-[29px]"}`}
+      style={{ background: on ? "var(--escalab-teal)" : "var(--escalab-border)" }}
+    />
+  );
+}
+
+/** Flujo vertical para móvil: cada nodo se enciende cuando el scroll lo alcanza. */
+function VerticalFlow() {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const [seen, setStep] = useState(0);
+  // sin animación el flujo se muestra completo
+  const step = reduce ? 7 : seen;
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || reduce) return;
+    const els = Array.from(root.querySelectorAll<HTMLElement>("[data-at]"));
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const at = Number((e.target as HTMLElement).dataset.at);
+          setStep((prev) => Math.max(prev, at));
+        }
+      },
+      { rootMargin: "0px 0px -35% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    // al llegar al final, cierra la ejecución
+    const end = root.querySelector<HTMLElement>("[data-end]");
+    const ioEnd = new IntersectionObserver(([e]) => e.isIntersecting && setStep(7), { rootMargin: "0px 0px -20% 0px" });
+    if (end) ioEnd.observe(end);
+    return () => {
+      io.disconnect();
+      ioEnd.disconnect();
+    };
+  }, [reduce]);
+
+  return (
+    <div data-ui className="ui-node overflow-hidden md:hidden">
+      <div className="flex items-center justify-between bg-navy-3 px-4 py-2.5">
+        <p className="text-[15px] font-bold">Workflow · De lead a venta</p>
+        <p className="t-small flex items-center gap-2 font-semibold" style={{ color: step === 7 ? "var(--escalab-green)" : "var(--escalab-cyan)" }}>
+          {step === 7 ? <Check size={14} strokeWidth={3.5} /> : <span className="size-2 rounded-full bg-cyan" style={{ animation: "wf-pulse 1.1s ease-in-out infinite" }} />}
+          {step === 7 ? "Exitosa" : step === 0 ? "Esperando" : "Ejecutando"}
+        </p>
+      </div>
+      <div ref={rootRef} className="px-4 pb-5 pt-4" role="group" aria-label="Workflow de n8n en vertical: trigger, agente de IA, condición, calendario, espera y WhatsApp">
+        <p className="mb-4 min-h-[2.9em] text-[14px] leading-snug text-soft" aria-live="polite">
+          {CAPTIONS[step]}
+        </p>
+        {V_FLOW.map((group, gi) => (
+          <div key={gi}>
+            {gi > 0 && <VWire on={step >= group.items[0].at} />}
+            {group.label && (
+              <p className="t-micro mb-2 ml-1" style={{ color: step >= group.items[0].at ? "var(--escalab-teal)" : undefined }}>
+                {group.label}
+              </p>
+            )}
+            {group.items.map((item, ii) => (
+              <div key={item.name}>
+                {ii > 0 && <VWire on={step >= item.at} dashed={item.sub} />}
+                <VNode item={item} step={step} />
+              </div>
+            ))}
+          </div>
+        ))}
+        <p data-end className="mt-4 flex items-center gap-2 text-[13px] font-semibold" style={{ color: step === 7 ? "var(--escalab-green)" : "var(--escalab-gray)" }}>
+          <Check size={14} strokeWidth={3.5} /> Del mensaje a la venta, sin tocar nada.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function WorkflowScene() {
   const ref = useRef<HTMLElement>(null);
   const pinned = usePinned();
@@ -79,20 +211,21 @@ export function WorkflowScene() {
     <section
       ref={ref}
       aria-labelledby="scene-title"
-      className={wideLayout ? "relative h-[300vh]" : "relative py-20"}
+      className={wideLayout ? "relative h-[300vh]" : "relative py-12 md:py-20"}
     >
       <div className={wideLayout ? "sticky top-0 flex h-svh flex-col justify-center gap-5 pt-16" : ""}>
         <div className="page-m flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
           <h2 id="scene-title" className="t-h2">
             Así corre tu workflow.
           </h2>
-          <p className="min-h-[2.8em] max-w-[34ch] text-[15px] leading-snug text-soft" aria-live="polite">
+          <p className="hidden min-h-[2.8em] max-w-[34ch] text-[15px] leading-snug text-soft md:block" aria-live="polite">
             {CAPTIONS[s]}
           </p>
         </div>
 
         <div className="page-m">
-          <div data-ui className="ui-node overflow-hidden">
+          <VerticalFlow />
+          <div data-ui className="ui-node hidden overflow-hidden md:block">
             <div className="flex items-center justify-between bg-navy-3 px-4 py-2.5">
               <p className="text-[15px] font-bold">Workflow · De lead a venta</p>
               <p className="t-small flex items-center gap-2 font-semibold" style={{ color: s === 7 ? "var(--escalab-green)" : "var(--escalab-cyan)" }}>

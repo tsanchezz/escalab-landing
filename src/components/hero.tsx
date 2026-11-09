@@ -14,7 +14,7 @@ export function Hero() {
         <div className="glow bg-teal" style={{ width: "34vw", height: "34vw", left: "-12vw", bottom: "-10vw", opacity: 0.2, animation: "drift-b 26s ease-in-out infinite" }} />
       </div>
 
-      <div className="page-m grid items-center gap-14 pb-16 pt-8 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-12 lg:gap-8 lg:pt-12">
+      <div className="page-m grid items-center gap-10 pb-12 pt-6 sm:gap-14 sm:pb-16 sm:pt-8 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-12 lg:gap-8 lg:pt-12">
         <div className="lg:col-span-7">
           <div className="rise" style={rise(0)}>
             <NodeChip type="Webhook · Trigger" name="Llega un mensaje nuevo" icon={<Webhook size={16} />} />

@@ -37,10 +37,10 @@ export function SavingsCalculator() {
 
   return (
     <section id="ahorro" aria-labelledby="ahorro-title" className="bg-navy-2">
-      <div className="page-m py-20 lg:py-24">
+      <div className="page-m py-12 sm:py-16 lg:py-24">
         <NodeChip type="Set · Cálculo" name="Cuánto tiempo recuperás" icon={<Calculator size={16} />} />
 
-        <div className="mt-8 grid items-center gap-10 md:grid-cols-2 md:gap-16">
+        <div className="mt-6 grid items-center gap-8 sm:mt-8 sm:gap-10 md:grid-cols-2 md:gap-16">
           <div>
             <Reveal as="h2" className="t-h2">
               <span id="ahorro-title">¿Cuántos mensajes por mes?</span>
