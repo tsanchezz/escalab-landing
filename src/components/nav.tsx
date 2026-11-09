@@ -14,7 +14,11 @@ export function Nav() {
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const t = window.setTimeout(onScroll, 0); // posición restaurada al recargar a mitad de página
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   // el botón flotante se esconde cuando el formulario ya está a la vista
