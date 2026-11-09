@@ -80,7 +80,7 @@ export function Contact() {
               </div>
             ) : (
               <form onSubmit={onSubmit} className="grid gap-4">
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="label" htmlFor="c-name">Tu nombre</label>
                     <input id="c-name" name="name" required autoComplete="name" className="field" />
@@ -90,7 +90,7 @@ export function Contact() {
                     <input id="c-biz" name="business" required autoComplete="organization" className="field" />
                   </div>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="label" htmlFor="c-email">Email</label>
                     <input id="c-email" name="email" type="email" required autoComplete="email" className="field" />
@@ -100,7 +100,7 @@ export function Contact() {
                     <input id="c-phone" name="phone" type="tel" autoComplete="tel" className="field" />
                   </div>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="label" htmlFor="c-agents">Agentes en el equipo</label>
                     <select id="c-agents" name="agents" defaultValue="" className="field">

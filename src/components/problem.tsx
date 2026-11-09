@@ -41,7 +41,7 @@ export function Problem() {
           </div>
         </div>
 
-        <ul className="mt-10 grid gap-8 sm:mt-12 md:grid-cols-3 md:gap-10">
+        <ul className="mt-10 grid grid-cols-1 gap-8 sm:mt-12 md:grid-cols-3 md:gap-10">
           {POINTS.map((p, i) => (
             <Reveal as="li" key={p.n} delay={i * 0.08} className="border-t border-line pt-5">
               <p className="font-serif text-[18px] italic text-terracotta-deep">{p.n}</p>

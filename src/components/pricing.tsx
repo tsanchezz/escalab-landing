@@ -16,7 +16,7 @@ export function Pricing() {
           </span>
         </Reveal>
 
-        <ul className="mt-10 grid gap-5 sm:mt-12 md:grid-cols-3">
+        <ul className="mt-10 grid grid-cols-1 gap-5 sm:mt-12 md:grid-cols-3">
           {PLANS.map((p, i) => {
             const featured = p.id === "inmobiliaria";
             return (

@@ -50,7 +50,7 @@ export function Capabilities() {
           </span>
         </Reveal>
 
-        <ul className="mt-10 grid gap-x-6 gap-y-10 sm:mt-12 lg:grid-cols-6">
+        <ul className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:mt-12 lg:grid-cols-6">
           {ITEMS.map((it, i) => {
             const big = i < 2;
             return (

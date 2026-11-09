@@ -23,7 +23,7 @@ export function Hero() {
       />
       <div aria-hidden className="scrim-hero absolute inset-0 -z-10" />
 
-      <div className="page-m grid w-full gap-10 pb-12 pt-28 sm:pb-16 lg:grid-cols-12 lg:items-end lg:pb-20">
+      <div className="page-m grid w-full grid-cols-1 gap-10 pb-12 pt-28 sm:pb-16 lg:grid-cols-12 lg:items-end lg:pb-20">
         <div className="lg:col-span-7">
           <p className="t-eyebrow rise" style={i(0)}>
             Para inmobiliarias y agentes
@@ -54,7 +54,7 @@ export function Hero() {
             </CtaLink>
           </div>
 
-          <p className="rise mt-10 flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.18em] text-cream/85" style={i(5)}>
+          <p className="rise mt-10 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] font-bold uppercase tracking-[0.18em] text-cream/85" style={i(5)}>
             <span>Responder</span>
             <span aria-hidden className="h-px w-6 bg-terracotta-soft" />
             <span>Calificar</span>
