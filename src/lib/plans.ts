@@ -1,10 +1,12 @@
-/** Planes de ejemplo (proyecto académico). Fuente única para la UI y el JSON-LD. */
+/** Planes de ejemplo (proyecto académico), en USD: `down` es el pago inicial y `price` la mensualidad; `suggested` marca valores orientativos. Fuente única para la UI y el JSON-LD. */
 export const PLANS = [
   {
     id: "independiente",
     name: "Independiente",
     who: "Para agentes y corredores",
-    price: "190",
+    down: "550",
+    price: "100",
+    suggested: false,
     lines: [
       "1 agente de IA en WhatsApp o Instagram",
       "Respuestas con los datos de tus fichas",
@@ -17,7 +19,9 @@ export const PLANS = [
     id: "inmobiliaria",
     name: "Inmobiliaria",
     who: "Para inmobiliarias con equipo",
-    price: "390",
+    down: "750",
+    price: "200",
+    suggested: true,
     lines: [
       "Todo lo de Independiente",
       "Hasta 3 canales: WhatsApp, Instagram, Facebook y web",
@@ -30,7 +34,9 @@ export const PLANS = [
     id: "red",
     name: "Red o grupo",
     who: "Para varias sucursales",
-    price: "790",
+    down: "1.200",
+    price: "400",
+    suggested: true,
     lines: [
       "Todo lo de Inmobiliaria",
       "Varias sucursales y equipos",
