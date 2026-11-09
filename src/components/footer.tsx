@@ -3,33 +3,35 @@ import { Logo } from "@/components/logo";
 import { SITE } from "@/lib/site";
 
 const COLS = [
-  { title: "Servicio", links: [["#como-funciona", "Cómo funciona"], ["#servicios", "Qué automatizamos"], ["#ahorro", "Calculadora"]] },
-  { title: "Comercial", links: [["#planes", "Planes"], ["#faq", "Preguntas"], ["#contacto", "Contacto"]] },
+  { title: "Producto", links: [["#como-funciona", "Cómo funciona"], ["#servicios", "Qué resuelve"], ["#ahorro", "Calculadora"]] },
+  { title: "Comercial", links: [["#planes", "Planes"], ["#faq", "Preguntas"], ["#contacto", "Pedir una demo"]] },
   { title: "Legal", links: [["/privacidad", "Privacidad y cookies"]] },
 ] as const;
 
 export function Footer() {
   return (
-    <footer className="bg-navy-2 pb-8 pt-10 sm:pt-14">
+    <footer className="on-dark cv bg-night pb-8 pt-12 text-cream sm:pt-16 [--cv-m:861px] [--cv-d:475px]">
       <div className="page-m">
-        <div className="grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-3">
-            <Logo />
-            <p className="t-micro mt-4 text-soft">{SITE.claim}</p>
+        <p className="font-serif text-[clamp(32px,5vw,64px)] leading-[1.02] tracking-[-0.02em]">{SITE.claim}</p>
+
+        <div className="mt-12 grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <Logo light />
+            <p className="mt-4 text-[12px] font-bold uppercase tracking-[0.18em] text-cream/60">{SITE.signature}</p>
           </div>
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-6">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-5">
             {COLS.map((c) => (
               <nav key={c.title} aria-label={c.title}>
-                <p className="t-micro text-soft">{c.title}</p>
-                <ul className="mt-4 grid gap-2.5 text-[14px]">
+                <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-cream/60">{c.title}</p>
+                <ul className="mt-4 grid gap-1 text-[15px]">
                   {c.links.map(([href, label]) => (
                     <li key={href}>
                       {href.startsWith("/") ? (
-                        <Link href={href} className="transition-colors hover:text-lime">
+                        <Link href={href} className="inline-flex min-h-9 items-center transition-colors hover:text-terracotta-soft">
                           {label}
                         </Link>
                       ) : (
-                        <a href={href} className="transition-colors hover:text-lime">
+                        <a href={href} className="inline-flex min-h-9 items-center transition-colors hover:text-terracotta-soft">
                           {label}
                         </a>
                       )}
@@ -39,18 +41,20 @@ export function Footer() {
               </nav>
             ))}
           </div>
-          <address className="text-[14px] not-italic leading-relaxed text-soft lg:col-span-3">
-            <a href={`mailto:${SITE.email}`} className="font-semibold text-ink hover:text-lime">
+          <address className="text-[15px] not-italic leading-relaxed text-cream/80 lg:col-span-3">
+            <a href={`mailto:${SITE.email}`} className="font-semibold text-cream hover:text-terracotta-soft">
               {SITE.email}
             </a>
             <br />
-            Remoto · Latinoamérica
+            Remoto · Argentina y Latinoamérica
           </address>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6 text-[13px] text-soft">
-          <p>© {new Date().getFullYear()} Escalab. Proyecto académico: Escalab es una empresa ficticia.</p>
-          <a href="#top" className="btn btn-secondary !min-h-10 !px-4 !text-[12px]">
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-cream/15 pt-6 text-[13px] text-cream/70">
+          <p className="max-w-[70ch]">
+            © {new Date().getFullYear()} Escalab. Proyecto académico: Escalab es una empresa ficticia. Las propiedades, direcciones y conversaciones son de ejemplo; las fotografías son de Unsplash.
+          </p>
+          <a href="#top" className="btn btn-light !min-h-10 !px-4 !text-[13px]">
             Volver arriba
           </a>
         </div>

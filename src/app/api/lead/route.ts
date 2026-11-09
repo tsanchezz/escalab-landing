@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
 
-type Lead = { name?: string; email?: string; business?: string; plan?: string; website?: string };
+type Lead = {
+  name?: string;
+  email?: string;
+  business?: string;
+  phone?: string;
+  agents?: string;
+  plan?: string;
+  message?: string;
+  website?: string;
+};
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const clean = (v: unknown, max = 200) => String(v ?? "").trim().slice(0, max);
@@ -23,7 +32,11 @@ export async function POST(request: Request) {
     name: clean(body.name, 100),
     email: clean(body.email, 160),
     business: clean(body.business, 160),
+    phone: clean(body.phone, 40),
+    agents: clean(body.agents, 10),
     plan: clean(body.plan, 30),
+    message: clean(body.message, 1000),
+    segment: "inmobiliarias",
     source: "escalab-landing",
     receivedAt: new Date().toISOString(),
   };

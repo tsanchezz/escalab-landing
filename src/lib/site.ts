@@ -8,30 +8,34 @@ export const SITE_URL = (
 
 export const SITE = {
   name: "Escalab",
-  claim: "Optimize · Scale · Sell",
-  title: "Escalab | Automatización con n8n para pymes",
+  audience: "para inmobiliarias",
+  claim: "Responder. Calificar. Agendar.",
+  signature: "Optimize · Scale · Sell",
+  title: "Escalab | Automatización de consultas para inmobiliarias",
   description:
-    "Automatizamos la atención y las ventas de tu pyme con n8n: un agente de IA responde, califica y agenda leads desde tus redes sociales, sin discovery manual.",
+    "Un agente de IA que responde, califica y agenda cada consulta de tu inmobiliaria por WhatsApp, Instagram y web, y ordena el seguimiento de tus leads.",
   locale: "es_AR",
   email: "hola@escalab.example",
   keywords: [
-    "automatización para pymes",
-    "n8n",
-    "automatización de ventas",
-    "agente de IA",
-    "chatbot para Instagram y WhatsApp",
-    "calificación de leads",
-    "digitalización de pymes",
+    "software para inmobiliarias",
+    "chatbot para inmobiliarias",
+    "bot de WhatsApp para inmobiliarias",
+    "automatización de consultas inmobiliarias",
+    "seguimiento de leads inmobiliarios",
+    "agendar visitas automáticamente",
+    "IA para inmobiliarias",
+    "n8n para inmobiliarias",
   ],
 } as const;
 
 export const NAV_LINKS = [
   { href: "#como-funciona", label: "Cómo funciona" },
-  { href: "#servicios", label: "Qué automatizamos" },
+  { href: "#servicios", label: "Qué resuelve" },
   { href: "#planes", label: "Planes" },
   { href: "#faq", label: "Preguntas" },
 ] as const;
 
+const WA_TEXT = encodeURIComponent("Hola Escalab, quiero automatizar las consultas de mi inmobiliaria.");
 export const WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
-  ? `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola Escalab, quiero automatizar mi negocio.")}`
-  : `https://wa.me/?text=${encodeURIComponent("Hola Escalab, quiero automatizar mi negocio.")}`;
+  ? `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${WA_TEXT}`
+  : `https://wa.me/?text=${WA_TEXT}`;

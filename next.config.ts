@@ -10,6 +10,11 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  images: {
+    formats: ["image/avif", "image/webp"],
+    qualities: [60, 75],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+  },
   turbopack: {
     rules: {
       "*.css": {
@@ -19,7 +24,10 @@ const nextConfig: NextConfig = {
     },
   },
   async headers() {
-    return [{ source: "/(.*)", headers: securityHeaders }];
+    return [
+      { source: "/(.*)", headers: securityHeaders },
+      { source: "/images/(.*)", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
+    ];
   },
 };
 

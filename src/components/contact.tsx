@@ -1,18 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Send, Check } from "lucide-react";
-import { NodeChip, useWorkflow } from "@/components/workflow";
+import { ArrowRight, Check } from "lucide-react";
+import { ParallaxImage } from "@/components/parallax-image";
 import { track } from "@/lib/analytics";
 import { WHATSAPP_URL } from "@/lib/site";
+import { PLANS } from "@/lib/plans";
 
 type Status = "idle" | "sending" | "ok" | "error";
 
-const field =
-  "h-12 w-full rounded-lg bg-[#2b66e6] px-4 text-[16px] text-white placeholder:text-white/75 outline-offset-2 focus-visible:outline-white";
-
 export function Contact() {
-  const { finish } = useWorkflow();
   const [status, setStatus] = useState<Status>("idle");
   const [plan, setPlan] = useState("");
 
@@ -24,93 +21,120 @@ export function Contact() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form));
+    const data = Object.fromEntries(new FormData(e.currentTarget));
     setStatus("sending");
     try {
       const [res] = await Promise.all([
         fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }),
-        new Promise((r) => setTimeout(r, 900)),
+        new Promise((r) => setTimeout(r, 700)),
       ]);
       if (!res.ok) throw new Error("bad response");
       setStatus("ok");
-      finish();
-      track("generate_lead", { plan: String(data.plan || "sin_definir"), form: "contacto" });
+      track("generate_lead", { plan: String(data.plan || "sin_definir"), agents: String(data.agents || "sin_definir"), form: "contacto" });
     } catch {
       setStatus("error");
     }
   }
 
   return (
-    <section id="contacto" aria-labelledby="contacto-title" className="page-m pb-12 pt-4 sm:pb-16 sm:pt-8 lg:pb-24">
-      <NodeChip type="Webhook · Respuesta" name="De lead a venta" icon={<Send size={18} />} />
+    <section id="contacto" aria-labelledby="contacto-title" className="on-dark cv relative isolate overflow-hidden bg-night text-cream [--cv-m:1225px] [--cv-d:776px]">
+      <ParallaxImage
+        src="/images/contacto.jpg"
+        alt="Fachada moderna con paneles de madera y puerta de entrada"
+        sizes="100vw"
+        position="50% 40%"
+        strength={6}
+        className="-z-20"
+      />
+      <div aria-hidden className="scrim-hero absolute inset-0 -z-10" />
 
-      <div className="mt-8">
-        <div className="coupon grid lg:grid-cols-[46%_1fr]" data-ui>
-          <span aria-hidden className="coupon-perf" />
+      <div className="page-m section grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+        <div className="lg:col-span-5">
+          <p className="t-eyebrow">Pedí una demo</p>
+          <h2 id="contacto-title" className="t-h2 mt-4 text-cream">
+            Hablemos de <em>tu inmobiliaria.</em>
+          </h2>
+          <p className="t-lead mt-5 max-w-[40ch]">
+            Contanos cómo recibís hoy las consultas y te mostramos cómo quedaría con el agente. Te respondemos en menos de 24 horas.
+          </p>
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => track("cta_click", { location: "contacto", label: "whatsapp" })}
+            className="mt-6 inline-flex min-h-11 items-center font-semibold text-cream underline underline-offset-4"
+          >
+            O escribinos por WhatsApp
+          </a>
+        </div>
 
-          <div className="flex flex-col justify-between gap-10 p-7 lg:p-9">
-            <h2 id="contacto-title" className="text-[clamp(24px,2.4vw,34px)] font-extrabold uppercase leading-[1.02] tracking-[-0.02em]">
-              Empecemos tu workflow
-            </h2>
-            <div>
-              <p className="max-w-[34ch] text-[16px] leading-relaxed text-white">
-                Contanos de tu negocio y te respondemos en menos de 24 horas.
-              </p>
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => track("cta_click", { location: "contacto", label: "whatsapp" })}
-                className="mt-5 inline-block text-[15px] font-bold underline underline-offset-4"
-              >
-                O escribinos por WhatsApp
-              </a>
-            </div>
-          </div>
-
-          <div className="p-7 pt-10 lg:p-9 max-lg:pt-12">
+        <div className="lg:col-span-6 lg:col-start-7">
+          <div className="card p-6 text-ink sm:p-8">
             {status === "ok" ? (
-              <div role="status" className="flex h-full min-h-[320px] flex-col items-start justify-center gap-4">
-                <span className="grid size-14 place-items-center rounded-full bg-navy text-green">
-                  <Check size={28} strokeWidth={3.5} />
+              <div role="status" className="flex min-h-[320px] flex-col items-start justify-center gap-4">
+                <span className="grid size-14 place-items-center rounded-full bg-sage-soft text-ink">
+                  <Check size={26} strokeWidth={2.5} />
                 </span>
-                <p className="text-[28px] font-extrabold leading-tight tracking-tight">Ejecución exitosa.</p>
-                <p className="max-w-[30ch] text-[17px]">Tu lead ya está en el flujo. Te escribimos en menos de 24 horas.</p>
+                <p className="font-serif text-[32px] leading-tight">Recibimos tu consulta.</p>
+                <p className="max-w-[34ch] text-soft">Te escribimos en menos de 24 horas para coordinar la demo.</p>
               </div>
             ) : (
-              <form onSubmit={onSubmit} className="grid gap-2.5" noValidate={false}>
-                <label className="sr-only" htmlFor="c-name">Nombre</label>
-                <input id="c-name" name="name" required autoComplete="name" placeholder="Tu nombre" className={field} />
-                <label className="sr-only" htmlFor="c-email">Email</label>
-                <input id="c-email" name="email" type="email" required autoComplete="email" placeholder="Tu email" className={field} />
-                <label className="sr-only" htmlFor="c-biz">Tu negocio</label>
-                <input id="c-biz" name="business" required autoComplete="organization" placeholder="Tu negocio" className={field} />
-                <label className="sr-only" htmlFor="c-plan">Plan de interés</label>
-                <select
-                  id="c-plan"
-                  name="plan"
-                  value={plan}
-                  onChange={(e) => setPlan(e.target.value)}
-                  className={`${field} appearance-none`}
-                >
-                  <option value="" className="text-navy">Plan de interés</option>
-                  <option value="optimize" className="text-navy">Optimize</option>
-                  <option value="scale" className="text-navy">Scale</option>
-                  <option value="sell" className="text-navy">Sell</option>
-                  <option value="no_se" className="text-navy">Todavía no sé</option>
-                </select>
+              <form onSubmit={onSubmit} className="grid gap-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="label" htmlFor="c-name">Tu nombre</label>
+                    <input id="c-name" name="name" required autoComplete="name" className="field" />
+                  </div>
+                  <div>
+                    <label className="label" htmlFor="c-biz">Inmobiliaria</label>
+                    <input id="c-biz" name="business" required autoComplete="organization" className="field" />
+                  </div>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="label" htmlFor="c-email">Email</label>
+                    <input id="c-email" name="email" type="email" required autoComplete="email" className="field" />
+                  </div>
+                  <div>
+                    <label className="label" htmlFor="c-phone">WhatsApp (opcional)</label>
+                    <input id="c-phone" name="phone" type="tel" autoComplete="tel" className="field" />
+                  </div>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="label" htmlFor="c-agents">Agentes en el equipo</label>
+                    <select id="c-agents" name="agents" defaultValue="" className="field">
+                      <option value="">Elegí una opción</option>
+                      <option value="1">Solo yo</option>
+                      <option value="2-5">2 a 5</option>
+                      <option value="6-15">6 a 15</option>
+                      <option value="16+">Más de 15</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="label" htmlFor="c-plan">Plan de interés</label>
+                    <select id="c-plan" name="plan" value={plan} onChange={(e) => setPlan(e.target.value)} className="field">
+                      <option value="">Todavía no sé</option>
+                      {PLANS.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label className="label" htmlFor="c-msg">¿Qué te gustaría resolver? (opcional)</label>
+                  <textarea id="c-msg" name="message" className="field" />
+                </div>
                 {/* honeypot anti-spam */}
                 <input name="website" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="mt-1 h-12 w-full rounded-lg bg-navy text-[15px] font-bold uppercase tracking-[0.1em] text-white transition-[filter,transform] duration-200 hover:brightness-125 active:scale-[0.99] disabled:opacity-70"
-                >
-                  {status === "sending" ? "Ejecutando…" : "Ejecutar workflow"}
+                <button type="submit" disabled={status === "sending"} className="btn btn-primary mt-1 w-full disabled:opacity-70">
+                  {status === "sending" ? "Enviando…" : "Pedir una demo"}
+                  {status !== "sending" && <ArrowRight aria-hidden size={18} className="arrow" />}
                 </button>
                 {status === "error" && (
-                  <p role="alert" className="t-small text-white">
+                  <p role="alert" className="text-[14px] font-semibold text-terracotta-deep">
                     No pudimos enviar el formulario. Probá de nuevo o escribinos por WhatsApp.
                   </p>
                 )}
