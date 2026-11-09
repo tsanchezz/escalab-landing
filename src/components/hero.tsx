@@ -12,7 +12,7 @@ const HERO_MSGS = [STEPS[0].msgs[0], STEPS[1].msgs[0], STEPS[2].msgs[1], STEPS[3
 
 export function Hero() {
   return (
-    <section id="top" aria-labelledby="hero-title" className="on-dark relative isolate flex min-h-[100svh] items-end overflow-hidden bg-night text-cream">
+    <section id="top" aria-labelledby="hero-title" className="on-dark relative isolate flex min-h-[100svh] items-end overflow-hidden lg:items-center bg-night text-cream">
       <ParallaxImage
         src="/images/hero.jpg"
         alt="Living amplio con pared de madera, sillón gris y cocina integrada, con luz natural"
@@ -23,7 +23,7 @@ export function Hero() {
       />
       <div aria-hidden className="scrim-hero absolute inset-0 -z-10" />
 
-      <div className="page-m grid w-full grid-cols-1 gap-10 pb-12 pt-28 sm:pb-16 lg:grid-cols-12 lg:items-end lg:pb-20">
+      <div className="page-m grid w-full grid-cols-1 gap-10 pb-12 pt-28 sm:pb-16 lg:grid-cols-12 lg:items-center lg:py-28">
         <div className="lg:col-span-7">
           <p className="t-eyebrow rise" style={i(0)}>
             Para inmobiliarias y agentes
