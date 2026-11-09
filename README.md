@@ -48,6 +48,10 @@ Metadata y canonical por la Metadata API, Open Graph/Twitter con imagen generada
 
 Precios, la calculadora (4 min por consulta, 70% resuelto por el agente) y las conversaciones son datos de ejemplo del proyecto académico. No hay clientes, testimonios ni métricas inventadas.
 
+## Formulario de contacto
+
+`POST /api/lead` valida (mismas reglas que el cliente), descarta bots con honeypot y entrega la consulta: por webhook si hay `N8N_WEBHOOK_URL`; si no, por email con FormSubmit a `LEAD_NOTIFY_EMAIL` o `NEXT_PUBLIC_CONTACT_EMAIL`. La primera vez FormSubmit manda un mail de activación a esa casilla.
+
 ## Páginas legales
 
 `/privacidad` (Ley 25.326, AAIP), `/terminos` y `/cookies`, con leyenda de proyecto académico. Los datos de contacto reales (`NEXT_PUBLIC_CONTACT_EMAIL`, `NEXT_PUBLIC_WHATSAPP_NUMBER`) van en variables de entorno; sin ellas no se muestra ninguno.

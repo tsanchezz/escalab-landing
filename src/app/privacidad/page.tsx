@@ -37,7 +37,7 @@ export default function Privacidad() {
 
       <H2>Destinatarios y transferencias</H2>
       <p>
-        Los datos del formulario se envían a un flujo de automatización (n8n) para su gestión interna. La página se aloja en Vercel y, si aceptás la analítica, se usa Google Analytics; ambos proveedores pueden operar servidores fuera de Argentina. No vendemos ni cedemos tus datos a terceros con fines comerciales.
+        Los datos del formulario se entregan por email, a través del servicio FormSubmit, o a un flujo de automatización (n8n) para su gestión interna. La página se aloja en Vercel y, si aceptás la analítica, se usa Google Analytics; ambos proveedores pueden operar servidores fuera de Argentina. No vendemos ni cedemos tus datos a terceros con fines comerciales.
       </p>
 
       <H2>Conservación</H2>
