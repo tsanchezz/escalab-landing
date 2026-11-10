@@ -52,13 +52,15 @@ export function Journey() {
       </div>
 
       <div className="page-m mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-16">
-        <div className="hidden lg:col-span-5 lg:sticky lg:top-24 lg:block lg:self-start">
-          <Phone caption={false}>
-            {STEPS.slice(0, active + 1).flatMap((s, si) =>
-              s.msgs.map((m, mi) => <Bubble key={`${si}-${mi}`} msg={m} className="bubble-in" />),
-            )}
-          </Phone>
-          <p className="mt-4 text-center text-[12px] text-soft">Conversación de ejemplo · simulación</p>
+        <div className="hidden lg:col-span-5 lg:block">
+          <div className="sticky top-16 flex h-[calc(100svh-4rem)] flex-col items-center justify-center">
+            <Phone caption={false}>
+              {STEPS.slice(0, active + 1).flatMap((s, si) =>
+                s.msgs.map((m, mi) => <Bubble key={`${si}-${mi}`} msg={m} className="bubble-in" />),
+              )}
+            </Phone>
+            <p className="mt-4 text-center text-[12px] text-soft">Conversación de ejemplo · simulación</p>
+          </div>
         </div>
 
         <ol className="lg:col-span-6 lg:col-start-7">
@@ -72,7 +74,7 @@ export function Journey() {
                   refs.current[i] = el;
                 }}
                 data-i={i}
-                className="relative grid grid-cols-[44px_1fr] gap-5 lg:min-h-[42vh]"
+                className={`relative grid grid-cols-[44px_1fr] gap-5 ${last ? "lg:min-h-[40vh]" : "lg:min-h-[24vh]"}`}
               >
                 <div className="relative">
                   <span

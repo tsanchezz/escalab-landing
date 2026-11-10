@@ -53,11 +53,9 @@ export function Pricing() {
                     <span className="text-[14px] font-semibold text-soft">USD</span>
                     <span className="font-serif text-[48px] leading-none tracking-[-0.02em]">{p.price}</span>
                     <span className="text-[14px] text-soft">/ mes</span>
-                    {p.suggested && <span className="text-[14px] italic text-soft">(sugerido)</span>}
                   </p>
                   <p className="mt-3 text-[15px]">
                     <span className="font-semibold">Down payment: USD {p.down}</span>
-                    {p.suggested && <span className="italic text-soft"> (sugerido)</span>}
                   </p>
 
                   <ul className="mt-6 grid flex-1 content-start gap-3 text-[15px]">
@@ -84,7 +82,7 @@ export function Pricing() {
             );
           })}
         </ul>
-        <p className="mt-6 text-[13px] text-soft">Precios de ejemplo del proyecto académico. El down payment es un pago inicial único; los valores marcados como sugeridos son orientativos.</p>
+        <p className="mt-6 text-[13px] text-soft">Precios de ejemplo del proyecto académico. El down payment es un pago inicial único.</p>
       </div>
     </section>
   );

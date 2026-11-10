@@ -17,6 +17,9 @@ const ITEMS = [
   { Icon: Database, label: "Tu CRM" },
 ];
 
+/** Copias de la fila: cada mitad de la pista tiene que ser más ancha que cualquier pantalla para que el loop no deje huecos. */
+const COPIES = 6;
+
 function Row({ hidden = false }: { hidden?: boolean }) {
   return (
     <ul
@@ -47,8 +50,9 @@ export function Channels() {
       </p>
       <div className="marquee marquee-mask mt-6 overflow-hidden">
         <div className="marquee-track flex w-max">
-          <Row />
-          <Row hidden />
+          {Array.from({ length: COPIES }, (_, i) => (
+            <Row key={i} hidden={i > 0} />
+          ))}
         </div>
       </div>
       <div className="page-m">

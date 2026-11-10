@@ -56,11 +56,12 @@ export function Capabilities() {
             return (
               <Reveal as="li" key={it.n} delay={(i % 3) * 0.08} className={big ? "lg:col-span-3" : "lg:col-span-2"}>
                 <article className="group">
-                  <div className={`on-dark relative aspect-[4/3] overflow-hidden rounded-[6px] bg-night ${big ? "lg:aspect-[16/10]" : "lg:aspect-[4/5]"}`}>
+                  <div className={`on-dark relative aspect-[4/3] overflow-hidden rounded-[6px] bg-night ${big ? "lg:aspect-[16/10]" : "lg:aspect-[4/3]"}`}>
                     <Image
                       src={it.img}
                       alt={it.alt}
                       fill
+                      quality={90}
                       sizes={big ? "(min-width: 1200px) 580px, (min-width: 1024px) 50vw, 100vw" : "(min-width: 1200px) 380px, (min-width: 1024px) 33vw, 100vw"}
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     />
